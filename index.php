@@ -38,6 +38,10 @@
 		right:0px;	
 	}
 	
+	.menu_button {
+		font-size:20px;	
+	}
+	
 </style>
 </head>
 
@@ -47,7 +51,7 @@
 </div>
 <div class='body_container blur'><!--blur-->
     <!--<div class='title_wrap'><div class='title'>Streamline</div> <div class='sub_logo'>noob software</div></div>-->
-   		<?	include '../common/user_bar.php'; ?>
+   		<?	include 'user_bar.php'; ?>
         <div class='body_wrap'>
             <div id='body_frame' class='frame'>
             
@@ -59,7 +63,7 @@
         </div>	
 </div>
 
-<? include '../common/common.php'; ?>
+<? include 'common.php'; ?>
 <div class='dummy_div' style='display:none;'></div>
 </body>
 </html>

@@ -3,7 +3,7 @@ app.definition =
 	"routes": {
 		"default_route": {
 			"everyone": "index/introduction",
-			"user": "admin"	
+			"user": "admin/manage_pages"	
 		}
 	},
 	"search": {
@@ -61,7 +61,7 @@ app.definition =
 		{
 			"id": "admin",
 			"title": "Manage web page",
-			"user_access": "everyone",
+			"user_access": 'user',
 			"content": [
 				{
 					"type": "frame",
@@ -108,6 +108,13 @@ app.definition =
 					],*/
 					"image_location": "uploads",
 					"target" : "main",
+					"click": "edit_image",
+					//"animation": "slide",
+					/*"edit": true,
+					"edit_fields": [
+						"description"
+					],
+					"delete": true,
 					/*"content": {
 						"username": {
 							"target": "main"	
@@ -116,6 +123,36 @@ app.definition =
 								
 						}
 					}*/
+				}
+			]
+		},
+		{
+			"id": "edit_image",
+			"title": "Edit Image",
+			"user_accecss": "admin",
+			"content": [
+				{
+					"type": "form",
+					"id": "image",
+					"title": "Edit Image Description",
+					"content": [
+						/*{
+							"type": "hidden",
+							"id": "id"
+						},*/
+						{
+							"type": "text",
+							"id": "description",
+							"placeholder": "Description",
+						}
+					],
+					"delete": true,
+					"on_delete_navigate": "manage_images",
+					"save": true,
+					"get_load_mask": {
+						"id": "id",
+						"description": "description"	
+					}
 				}
 			]
 		},
@@ -162,7 +199,7 @@ app.definition =
 				{
 					"type": "content",
 					"id": "desc",
-					"content": "Here you add, remove and edit pages."	
+					"content": "Here you manage pages."	
 				},
 				{
 					"type": "form",
@@ -248,9 +285,112 @@ app.definition =
 			"user_access": "admin",
 			"content": [
 				{
-					"type": "form",
-					"id": "pages",
+					"type": "content",
+					"id": "instructions",
+					"content": "Here you can manage publications. Edit publication category to add publication entries to that category."
 				},
+				{
+					"type": "form",
+					"id": "publication_category",
+					"title": "New Publication Category",
+					"new_on_save": true,
+					"content": [
+						{
+							"type": "text",
+							"id": "category_name",
+							"placeholder": "Category Name"
+						},
+						{
+							"type": "text",
+							"id": "category_description",
+							"placeholder": "Category description"
+						}
+					],
+					"save": true,
+					"new": true,
+					"on_submit": [
+						"publication_categories_table"
+					],
+					"on_load": [
+						"publications_table",
+						"publication_form"
+					],
+					"on_load_load_mask": {
+						"id": "category_id"	
+					}
+				},
+				{
+					"type": "table",
+					"id": "publication_categories",
+					"edit": true,
+					"delete": true,
+					//"search": true,
+					"target": "publication_category_form",
+					"columns": {
+						"category_name": "Category Name",
+						"category_description": "Description"
+					},
+					"column_width": {
+						"category_name": "auto",
+						"category_description": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px"
+					}
+				},
+				{
+					"type": "form",
+					"id": "publication",
+					"title": "New Publication",
+					"new_on_save": true,
+					"content": [
+						{
+							"type": "textarea",
+							"id": "publication",
+							"placeholder": "Publication",
+							"required_on_edit": false,
+						},
+						{
+							"type": "date",
+							"id": "created",
+							"required_on_edit": false
+						},
+						{
+							"type": "text",
+							"id": "link",
+							"placeholder": "Link",
+							"required_on_edit": false,
+						},
+						{
+							"type": "hidden",
+							"id": "category_id",
+							"required_on_edit": true,
+							"persist_value": true
+						}
+					],
+					"save": true,
+					"new": true,
+					"on_submit": [
+						"publications_table"
+					]	
+				},
+				{
+					"type": "table",
+					"id": "publications",
+					"edit": true,
+					"delete": true,
+					"target": "publication_form",
+					"require_foreign_id": true,
+					"search": true,
+					"columns": {
+						"publication": "Publication",
+						"created": "Date",
+					},
+					"column_width": {
+						"publication": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px"
+					},
+				}
 			]
 		},
 		{
