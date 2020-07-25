@@ -29,6 +29,24 @@ class sl_cv {
 		return !($count > 0);	
 	}*/
 	
+	function get_menu_index_main() {
+		$query = "SELECT id, title FROM pages";	
+		$rows = $this->sql->get_rows($query, 1);
+		
+		$results = array();
+		$results[] = array('id' => 'news');
+		foreach($rows as $row) {
+			$results[] = array(
+				'id' => $row['id'],
+				'title' => $row['title'],
+				'page' => 'custom_page'
+			);	
+		}
+		$results[] = array('id' => 'publications');
+		$results[] = array('id' => 'images');
+		return $results;
+	}
+	
 	function pages_table() {
 		$query = "SELECT * FROM pages";
 		return $this->sql->get_rows($query, 1);	

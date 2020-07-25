@@ -409,15 +409,34 @@ app.definition =
 					"id": "index_main",
 					"position": "top",
 					"target": "main",
-					"content": [
-						"cv",
-					]
+					"content": 'fetch'
 				}
 			]
 		},
 		{
-			"id": "cv",
-			"title": "CV",
+			"id": "custom_page",
+			"title": "Loading",
+			"user_access": "everyone",
+			"content": [
+			]
+		},
+		{
+			"id": "news",
+			"title": "News",
+			"user_access": "everyone",
+			"content": [
+			]
+		},
+		{
+			"id": "images",
+			"title": "Photos",
+			"user_access": "everyone",
+			"content": [
+			]
+		},
+		{
+			"id": "publications",
+			"title": "Publications",
 			"user_access": "everyone",
 			"content": [
 				/*{
