@@ -22,7 +22,6 @@
             <input type='text' id='username' placeholder="Email" />
             <input type='password' id='password' class='' Placeholder="Password" />
             <button class='sign_in'>Sign in</button><br/><br/>
-            <button class='learn_more'>Learn more</button>
         </div>
     </div>
     <div id='body' class='night' style='display:none;'>
@@ -46,10 +45,10 @@
                             </div>
                         </div>
                     </div>
-                    <div id='digital_clock' style='display:none;'>
+                    <!--<div id='digital_clock' style='display:none;'>
                         <div id='value'>16:24</div>
                         
-                    </div>
+                    </div>-->
                 </div>
                 <div id='date' class='clock_element night'>
                     <div class='date_content'>

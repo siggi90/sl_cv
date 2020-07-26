@@ -14,6 +14,28 @@ var app = {
 		branch.user_menu.init();
 		branch.interpretation.init();
 		branch.overview.init_clock();
+		branch.language_options.init();
+	},
+	language_options: {
+		init: function() {
+			var branch = this;
+			$('.second_language_button').click(function() {
+				$.post(branch.root.actions, {
+					'action': 'set_language',
+					'value': '1'	
+				}, function(data) {
+					window.location.reload();
+				});
+			});
+			$('.english_language_button').click(function() {
+				$.post(branch.root.actions, {
+					'action': 'set_language',
+					'value': '1'	
+				}, function(data) {
+					window.location.reload();
+				});
+			});
+		}
 	}
 }
 

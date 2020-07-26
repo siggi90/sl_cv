@@ -174,7 +174,7 @@ app.definition =
 						{
 							"type": "text",
 							"id": "first_language",
-							"placeholder": "First Language"	
+							"placeholder": "English"	
 						},
 						{
 							"type": "text",
@@ -199,7 +199,7 @@ app.definition =
 				{
 					"type": "content",
 					"id": "desc",
-					"content": "Here you manage pages."	
+					"content": "Here you can manage pages."	
 				},
 				{
 					"type": "form",
@@ -210,7 +210,7 @@ app.definition =
 						{
 							"type": "text",
 							"id": "title",
-							"placeholder": "Page Title (First Language)"
+							"placeholder": "Page Title (English)"
 						},
 						{
 							"type": "text",
@@ -218,22 +218,24 @@ app.definition =
 							"placeholder": "Page Title (Second Language)"
 						},
 						{
-							"type": "text",
+							"type": "textarea",
 							"id": "description",
-							"placeholder": "Page Description (First Language)"
+							"placeholder": "Page Description (English)"
 						},
 						{
-							"type": "text",
+							"type": "textarea",
 							"id": "description_2",
 							"placeholder": "Page Description (Second Language)"
 						},
 						{
 							"type": "textarea",
+							"rich_text": true,
 							"id": "content",
-							"placeholder": "Page Content (First Language)"
+							"placeholder": "Page Content (English)"
 						},
 						{
 							"type": "textarea",
+							"rich_text": true,
 							"id": "content_2",
 							"placeholder": "Page Content (Second Language)"
 						}
@@ -298,12 +300,22 @@ app.definition =
 						{
 							"type": "text",
 							"id": "category_name",
-							"placeholder": "Category Name"
+							"placeholder": "Category Name (English)"
 						},
 						{
 							"type": "text",
 							"id": "category_description",
-							"placeholder": "Category description"
+							"placeholder": "Category description (English)"
+						},
+						{
+							"type": "text",
+							"id": "category_name_2",
+							"placeholder": "Category Name (Second Language)"
+						},
+						{
+							"type": "text",
+							"id": "category_description_2",
+							"placeholder": "Category description (Second Language)"
 						}
 					],
 					"save": true,
@@ -345,6 +357,7 @@ app.definition =
 					"content": [
 						{
 							"type": "textarea",
+							"rich_text": true,
 							"id": "publication",
 							"placeholder": "Publication",
 							"required_on_edit": false,
@@ -359,6 +372,7 @@ app.definition =
 							"id": "link",
 							"placeholder": "Link",
 							"required_on_edit": false,
+							"optional_field": true
 						},
 						{
 							"type": "hidden",
@@ -397,8 +411,9 @@ app.definition =
 			"id": "index",
 			"title": "My CV Webpage",
 			
-			"icon": "icon.png",
+			"icon": "sl_cv",
 			"user_access": "everyone",
+			"user_menu": false,
 			"content": [
 				{
 					"type": "frame",
@@ -418,6 +433,18 @@ app.definition =
 			"title": "Loading",
 			"user_access": "everyone",
 			"content": [
+				{
+					"type": "title",
+					"id": "title"				
+				},
+				{
+					"type": "content",
+					"id": "description"				
+				},
+				{
+					"type": "content",
+					"id": "content"				
+				}
 			]
 		},
 		{
@@ -425,6 +452,11 @@ app.definition =
 			"title": "News",
 			"user_access": "everyone",
 			"content": [
+				{
+					"type": "content",
+					"id": "description",
+					"content": "News"				
+				}
 			]
 		},
 		{
@@ -432,37 +464,78 @@ app.definition =
 			"title": "Photos",
 			"user_access": "everyone",
 			"content": [
+				{
+					"type": "list",
+					"id": "images_display",
+					"show_all_items": true,
+					//"search": "filter"
+					//"click": "article",
+					//"animation": "slide",
+					/*"date_columns": [
+						"created"
+					],*/
+					"image_location": "uploads",
+					"target" : "main",
+					//"click": "edit_image",
+					//"animation": "slide",
+					/*"edit": true,
+					"edit_fields": [
+						"description"
+					],
+					"delete": true,
+					/*"content": {
+						"username": {
+							"target": "main"	
+						},
+						"keywords": {
+								
+						}
+					}*/
+				}
 			]
 		},
 		{
 			"id": "publications",
 			"title": "Publications",
 			"user_access": "everyone",
+			"no_get_data": true,
 			"content": [
-				/*{
-					"type": "content",
-					"id": "instructions",
-					"content": "Here you can find Noob applications and libraries to download."
-				},*/
-				/*{
-					"type": "table",
-					"id": "downloads",
-					"title": "Downloads",
+				{
+					"type": "options",
+					"id": "publication_categories",
+					"target": "self",
+					'load_mask': {
+						"id": "category_id"
+					},
+					"content": "fetch"
+				},
+				{
+					"type": "list",
+					"id": "publications",
+					"show_all_items": true,
+					"search": "filter",
+					"target" : "main",
 					"columns": {
-						"image": "",
-						"title": "Download",
-						"description": "Description"
+						"created": "Published",
+						"link": "Link"
 					},
+					"post_data": {
+						"category_id": "category_id"
+					},
+					//"click": "article",
+					//"animation": "slide",
+					/*"date_columns": [
+						"created"
+					],
 					"content": {
-						"image": "image"
-					},
-					"column_width": {
-						"image": "50px",
-						"title": "300px",
-						"description": "auto"	
-					},
-					"target_frame": "main"
-				}*/
+						"username": {
+							"target": "main"	
+						},
+						"keywords": {
+								
+						}
+					}*/
+				}
 			]
 		},
 		/*{

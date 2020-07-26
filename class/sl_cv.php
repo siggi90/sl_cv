@@ -6,11 +6,32 @@ class sl_cv {
 	private $user_id;
 	
 	private $list_start = 5;
+	private $language;
 	
 	function __construct($sql, $statement, $user_id) {
 		$this->sql = $sql;
 		$this->statement = $statement;
 		$this->user_id = $user_id;
+		
+		if(isset($_SESSION['language'])) {
+			$this->language = $_SESSION['language'];
+		} else {
+			$query = "SELECT value FROM settings WHERE property = 'language'";
+			$row = $this->sql->get_row($query, 1);
+			$this->language = $row['value'];	
+		}
+	}
+	
+	function set_language($value) {
+		$this->set_property("language", $value);
+		$this->language = $value;	
+	}
+	
+	function set_property($property, $value) {
+		$query = "DELETE FROM settings WHERE property = '".$property."'";
+		$this->sql->execute($query);
+		$query = "INSERT INTO settings (property, value) VALUES('".$property."', '".$value."')";
+		$this->sql->execute($query);	
 	}
 	
 	/*function downloads_table($search_term, $offset) {
@@ -45,6 +66,25 @@ class sl_cv {
 		$results[] = array('id' => 'publications');
 		$results[] = array('id' => 'images');
 		return $results;
+	}
+	
+	function get_custom_page($id) {
+		$query = "SELECT * FROM pages WHERE id = ".$id;
+		$row = $this->sql->get_row($query, 1);
+		
+		if($this->language == 0) {
+			return array(
+				'title' => $row['title'],
+				'description' => $row['description'],
+				'content' => $row['content']
+			);
+		} else {
+			return array(
+				'title' => $row['title_2'],
+				'description' => $row['description_2'],
+				'content' => $row['content_2']
+			);
+		}
 	}
 	
 	function pages_table() {
@@ -106,6 +146,23 @@ class sl_cv {
 		return $results;
 	}
 	
+	
+	function images_display_list($search_term, $offset) {
+		$query = "SELECT * FROM images ORDER BY id";// DESC LIMIT ".($offset+$this->list_start);
+		$rows = $this->sql->get_rows($query, 1);
+		
+		$results = array();
+		
+		foreach($rows as $row) {
+			$results[] = array(
+				'id' => $row['id'],
+				'image' => $row['id'].$row['extension'],
+				'content' => $row['description']
+			);	
+		}
+		return $results;
+	}
+	
 	function get_edit_image($id) {
 		$query = "SELECT id, description FROM images WHERE id = ".$id;
 		return $this->sql->get_row($query, 1);	
@@ -121,9 +178,42 @@ class sl_cv {
 		return $this->sql->get_rows($query, 1);	
 	}
 	
+	function publications_list($search_term, $offset, $category_id=-1) {
+		$query = "SELECT id, DATE_FORMAT(created, '%Y') as created, link, publication as content FROM publications"; //%M %d
+		if($category_id != -1) {
+			$query .= " WHERE category_id = ".$category_id;	
+		}
+		$query .= " ORDER BY created DESC";
+		$rows = $this->sql->get_rows($query, 1);	
+		foreach($rows as $key => $row) {
+			if($row['link'] == "") {
+				unset($rows[$key]['link']);
+			} else {
+				$rows[$key]['link'] = "<a href='".$row['link']."'>".$row['link']."</a>";
+			}
+		}
+		return $rows;
+	}
+	
 	function publication_categories_table($search_term, $offset) {
 		$query = "SELECT * FROM publication_categories";
 		return $this->sql->get_rows($query, 1);	
+	}
+	
+	function publication_categories_options() {
+		if($this->language == 0) {
+			$query = "SELECT id as id, category_name as value FROM publication_categories ORDER BY category_name DESC";
+			$rows = $this->sql->get_rows($query, 1);
+			
+			$rows[] = array('id' => '-1', 'value' => 'By year');
+			return array_reverse($rows);
+		} else {
+			$query = "SELECT id as id, category_name_2 as value FROM publication_categories ORDER BY category_name DESC";
+			$rows = $this->sql->get_rows($query, 1);
+			
+			$rows[] = array('id' => '-1', 'value' => 'Eftir ártali');
+			return array_reverse($rows);
+		}
 	}
 	
 	function get_publication_categorie($id) {

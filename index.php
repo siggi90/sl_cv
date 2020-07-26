@@ -8,10 +8,12 @@
 <script type='text/javascript' src='/jquery-ui.min.js'></script>
 <script type='text/javascript' src='app.js'></script>
 <script type='text/javascript' src='/dropzone/dropzone.js'></script>
+<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <style type='text/css'>
 	@import "/css/base.css";
 	@import "/dropzone/basic.css";
 	@import "/dropzone/dropzone.css";
+	
 	
 	body { /*green*/
 		/*background: url('/images/rancrypt_back_2.png');*/
@@ -21,6 +23,7 @@
 		word-wrap: break-word;
 		/*background: url('/images/green.png');*/
 		background:rgba(185,32,32,1);
+		font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 	}	
 	
 	.body_container {
@@ -42,6 +45,45 @@
 		font-size:20px;	
 	}
 	
+	.main_title {
+		padding:50px;
+		margin-bottom:0px !important;	
+		z-index:1;
+	}
+	
+	.logo {
+		width: 120px;
+		height:120px;
+		background-size: cover;	
+	}
+	
+	.site_options {
+		position:absolute;
+		right:0px;	
+		z-index:99999;	
+	}
+	
+	.site_options > div {
+		float:left;
+	}
+	
+	.site_options img {
+		width:45px;
+		padding:20px;
+		padding-left:0px;
+	}
+	
+	.site_links {
+		color:#fff;	
+		position: absolute;
+		right: 0px;
+		top: 90px;
+	}
+	
+	.site_links > div {
+		float:left;	
+		padding-right:30px;
+	}
 </style>
 </head>
 
@@ -52,6 +94,14 @@
 <div class='body_container blur'><!--blur-->
     <!--<div class='title_wrap'><div class='title'>Streamline</div> <div class='sub_logo'>noob software</div></div>-->
    		<?	include 'user_bar.php'; ?>
+        <div class='site_options'>
+            <div class='second_language_button'><img src='images/second_language_flag.png' /></div>
+            <div class='english_language_button'><img src='images/un_flag.png' /></div>
+        </div>
+        <div class='site_links'>
+            <div class='rss_feed'><i class="icofont-ui-rss" style='color:#ee802f;'></i> RSS</div>
+            <div class='rss_feed'><i class="icofont-ui-rss"></i> RSS</div>
+        </div>
         <div class='body_wrap'>
             <div id='body_frame' class='frame'>
             
