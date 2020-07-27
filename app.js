@@ -30,7 +30,7 @@ var app = {
 			$('.english_language_button').click(function() {
 				$.post(branch.root.actions, {
 					'action': 'set_language',
-					'value': '1'	
+					'value': '0'	
 				}, function(data) {
 					window.location.reload();
 				});

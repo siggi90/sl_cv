@@ -32,10 +32,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SES
 				
 				include 'app.php';
 				$app = new app();
-				$name = $app->sl_cv->_image(array(
-					'description' => $name,
-					'extension' => $extension
-				));
+				
+				if($_GET['action'] == "images") {
+					$name = $app->sl_cv->_image(array(
+						'description' => $name,
+						'extension' => $extension
+					));
+				} else if($_GET['action'] == "news") {
+						
+				}
 				$name .= $extension;
 				
 				$targetPath =  dirname( __FILE__ ) . DIRECTORY_SEPARATOR. 'uploads' . DIRECTORY_SEPARATOR. $name;

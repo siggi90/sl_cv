@@ -23,8 +23,13 @@ class sl_cv {
 	}
 	
 	function set_language($value) {
-		$this->set_property("language", $value);
+		//$this->set_property("language", $value);
+		$_SESSION['language'] = $value;
 		$this->language = $value;	
+	}
+	
+	function get_language() {
+		var_dump($_SESSION['language']);	
 	}
 	
 	function set_property($property, $value) {
@@ -148,7 +153,7 @@ class sl_cv {
 	
 	
 	function images_display_list($search_term, $offset) {
-		$query = "SELECT * FROM images ORDER BY id";// DESC LIMIT ".($offset+$this->list_start);
+		$query = "SELECT * FROM images ORDER BY id DESC";// DESC LIMIT ".($offset+$this->list_start);
 		$rows = $this->sql->get_rows($query, 1);
 		
 		$results = array();
@@ -243,6 +248,32 @@ class sl_cv {
 	function delete_publication($id) {
 		$query = "DELETE FROM publications WHERE id = ".$id;
 		$this->sql->execute($query);	
+	}
+	
+	function _news($v) {
+		$this->statement->generate($v, "sl_cv.news");
+		$this->sql->execute($this->statement->get());
+		$id = $this->sql->last_id($v);
+		return $id;
+	}
+	
+	function news_table($search_term, $offset) {
+		$query = "SELECT id, title FROM news ORDER BY id DESC";
+		return $this->sql->get_rows($query, 1);	
+	}
+	
+	function get_new($id) {
+		$query = "SELECT * FROM news WHERE id = ".$id;
+		return $this->sql->get_row($query, 1);
+	}
+	
+	function news_list($search_term, $offset) {
+		if($this->language == 0) {
+			$query = "SELECT id, title, content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
+		} else {
+			$query = "SELECT id, title_2, content_2, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
+		}
+		return $this->sql->get_rows($query, 1);	
 	}
 }
 

@@ -75,6 +75,7 @@ app.definition =
 					"content": [
 						"manage_pages",
 						"manage_publications",
+						"manage_news",
 						"manage_settings",
 						"manage_images"
 					]
@@ -93,6 +94,7 @@ app.definition =
 				},
 				{
 					"type": "file_upload",	
+					"action": "upload.php?action=images",
 					"on_submit": [
 						"images_list"
 					]
@@ -189,6 +191,114 @@ app.definition =
 					"id": "language_instruction",
 					"content": "The language flag images can be changed by replacing first_language.png and second_language.png located in the images folder"	
 				}
+			]
+		},
+		{
+			"id": "manage_news",
+			"title": "News",
+			"user_access": "admin",
+			"content": [
+				{
+					"type": "content",
+					"id": "desc",
+					"content": "Here you can manage news."	
+				},
+				{
+					"type": "form",
+					"id": "news",
+					"title": "New Page",
+					"new_on_save": true,
+					"content": [
+						{
+							"type": "text",
+							"id": "title",
+							"placeholder": "News Title (English)"
+						},
+						{
+							"type": "text",
+							"id": "title_2",
+							"placeholder": "News Title (Second Language)"
+						},
+						/*{
+							"type": "textarea",
+							"id": "description",
+							"placeholder": "Page Description (English)"
+						},
+						{
+							"type": "textarea",
+							"id": "description_2",
+							"placeholder": "Page Description (Second Language)"
+						},*/
+						{
+							"type": "textarea",
+							"rich_text": true,
+							"id": "content",
+							"placeholder": "News Content (English)"
+						},
+						{
+							"type": "textarea",
+							"rich_text": true,
+							"id": "content_2",
+							"placeholder": "News Content (Second Language)"
+						}
+					],
+					"save": true,
+					"new": true,
+					"on_submit": [
+						"news_table"
+					],
+					/*"on_load": [
+						"users_table",
+						"user_form"
+					],*/
+					/*"on_load_load_mask": {
+						"id": "user_group_id"	
+					}*/	
+				},
+				{
+					"type": "content",
+					"id": "file_upload_instructions",
+					"content": "To add image to news article: first save the news article then edit it and drop images in the area below."
+				},
+				{
+					"type": "file_upload",
+					"id": "news_image",
+					"action": "upload.php?action=news",
+					"submit_mask": {
+						"news_id": "news_form.id"	
+					},
+					"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
+						{
+							"link": "news_form.id",
+							"value": "set"
+						}
+					]	
+				},
+				{
+					"type": "table",
+					"id": "news",
+					"edit": true,
+					"delete": true,
+					"search": true,
+					"target": "news_form",
+					"columns": {
+						"title": "Title"
+					},
+					"column_width": {
+						"title": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px",
+						"custom_action": "100px" 
+					},
+					/*"custom_actions": {
+						"view": {
+							"target_href": "stats",
+							"href_data": {
+								"user_group_id": "id"
+							}
+						}
+					}*/
+				},
 			]
 		},
 		{
@@ -289,7 +399,7 @@ app.definition =
 				{
 					"type": "content",
 					"id": "instructions",
-					"content": "Here you can manage publications. Edit publication category to add publication entries to that category."
+					"content": "Here you can manage publications. Edit publication category to add publication entries to that category. If a publication category contains no entries it will not be displayed on the web page."
 				},
 				{
 					"type": "form",
@@ -447,7 +557,7 @@ app.definition =
 				}
 			]
 		},
-		{
+		/*{
 			"id": "news",
 			"title": "News",
 			"user_access": "everyone",
@@ -458,7 +568,7 @@ app.definition =
 					"content": "News"				
 				}
 			]
-		},
+		},*/
 		{
 			"id": "images",
 			"title": "Photos",
@@ -537,6 +647,79 @@ app.definition =
 					}*/
 				}
 			]
+		},
+		{
+			"id": "news",
+			"title": "News",
+			//"click": "article",
+			//"animation": "slide",
+			"content": [
+				/*{
+					"type": "carousel",
+					"id": "news",
+					"height": "400px",
+					"time_interval": 7000,
+					"play": true,
+					"offset": 0,
+					"animation": "slide",
+					"bulbs": true
+				},*/
+				{
+					"type": "list",
+					"id": "news",
+					//"search": "filter",
+					"click": "article",
+					"animation": "slide",
+					/*"date_columns": [
+						"created"
+					],*/
+					"target" : "main",
+					/*"content": {
+						"username": {
+							"target": "main"	
+						},
+						"keywords": {
+								
+						}
+					}*/
+				}
+			]
+		},
+		{
+			"id": "article",
+			"class": "article",
+			"content": [
+				/*{
+					"type": "image",
+					"id": "front_image"
+				},*/
+				{
+					"type": "title",
+					"id": "title"
+				},
+				{
+					"type": "date",
+					"id": "created",
+					"caption": "Created"
+				},
+				/*{
+					"type": "user",
+					"id": "user",
+					"caption": "Submitted by"
+				},*/
+				{
+					"type": "content",
+					"id": "content"	
+				},
+				/*{
+					"type": "tags",
+					"id": "keywords",
+					"caption": "Keywords"	
+				},
+				/*{
+					"type": "comments"
+				},*/
+			]	
 		},
 		/*{
 			"id": "account",
