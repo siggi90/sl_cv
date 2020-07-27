@@ -196,6 +196,11 @@ class sl_cv {
 			} else {
 				$rows[$key]['link'] = "<a href='".$row['link']."'>".$row['link']."</a>";
 			}
+			$query = "SELECT * FROM publication_files WHERE publication_id = ".$row['id'];
+			$files = $this->sql->get_rows($query, 1);
+			if(count($files) > 0) {
+				$rows[$key]['link'] = "<a href='uploads/".$files[0]['id'].$files[0]['extension']."'>".$files[0]['filename']."</a>";
+			}
 		}
 		return $rows;
 	}
@@ -241,13 +246,30 @@ class sl_cv {
 	}
 	
 	function get_publication($id) {
-		$query = "SELECT id, publication, DATE_FORMAT(created, '%Y-%m-%d') as created, link  FROM publications WHERE id = ".$id;
+		$query = "SELECT id, publication, DATE_FORMAT(created, '%Y-%m-%d') as created, link, category_id  FROM publications WHERE id = ".$id;
 		return $this->sql->get_row($query, 1);	
 	}
 	
 	function delete_publication($id) {
 		$query = "DELETE FROM publications WHERE id = ".$id;
 		$this->sql->execute($query);	
+	}
+	
+	function publication_files_table($search_term, $offset, $publication_id) {
+		$query = "SELECT * FROM publication_files WHERE publication_id = ".$publication_id;
+		return $this->sql->get_rows($query, 1);
+	}
+	
+	function delete_publication_file($id) {
+		$query = "DELETE FROM publication_files WHERE id = ".$id;
+		$this->sql->execute($query);	
+	}
+	
+	function _publication_file($v) {
+		$this->statement->generate($v, "sl_cv.publication_files");
+		$this->sql->execute($this->statement->get());
+		$id = $this->sql->last_id($v);
+		return $id;
 	}
 	
 	function _news($v) {
@@ -267,13 +289,34 @@ class sl_cv {
 		return $this->sql->get_row($query, 1);
 	}
 	
+	function get_article($id) {
+		$row = $this->get_new($id);	
+		$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
+		$image = $this->sql->get_row($query, 1);
+		$row['image'] = $image['id'].$image['extension'];	
+		return $row;
+	}
+	
 	function news_list($search_term, $offset) {
 		if($this->language == 0) {
 			$query = "SELECT id, title, content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		} else {
 			$query = "SELECT id, title_2, content_2, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		}
-		return $this->sql->get_rows($query, 1);	
+		$rows = $this->sql->get_rows($query, 1);	
+		foreach($rows as $key => $row) {
+			$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
+			$image = $this->sql->get_row($query, 1);
+			$rows[$key]['image'] = $image['id'].$image['extension'];	
+		}
+		return $rows;
+	}
+	
+	function _news_image($v) {
+		$this->statement->generate($v, "sl_cv.news_images");
+		$this->sql->execute($this->statement->get());
+		$id = $this->sql->last_id($v);
+		return $id;
 	}
 }
 

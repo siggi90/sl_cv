@@ -112,7 +112,7 @@
             </div>-->
         </div>	
 </div>
-
+<div class='calendar_popover' style='display:none;'></div>
 <? include 'common.php'; ?>
 <div class='dummy_div' style='display:none;'></div>
 </body>

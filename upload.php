@@ -1,6 +1,7 @@
 <?
 session_start();
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SESSION['user_id'] != "-1") {
 	 
 	$name     = $_FILES['file']['name'];
@@ -39,7 +40,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SES
 						'extension' => $extension
 					));
 				} else if($_GET['action'] == "news") {
-						
+					$name = $app->sl_cv->_news_image(array(
+						'extension' => $extension,
+						'news_id' => $_GET['news_id']
+					));	
+				} else if($_GET['action'] == "publication") {					
+					$name = $app->sl_cv->_publication_file(array(
+						'filename' => $name,
+						'extension' => $extension,
+						'publication_id' => $_GET['publication_id']
+					));		
 				}
 				$name .= $extension;
 				

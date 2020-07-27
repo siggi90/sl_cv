@@ -94,7 +94,7 @@ app.definition =
 				},
 				{
 					"type": "file_upload",	
-					"action": "upload.php?action=images",
+					"form_action": "upload.php?action=images",
 					"on_submit": [
 						"images_list"
 					]
@@ -258,12 +258,12 @@ app.definition =
 				{
 					"type": "content",
 					"id": "file_upload_instructions",
-					"content": "To add image to news article: first save the news article then edit it and drop images in the area below."
+					"content": "To add image to a news article: first save the news article then edit it and drop an image in the area below."
 				},
 				{
 					"type": "file_upload",
 					"id": "news_image",
-					"action": "upload.php?action=news",
+					"form_action": "upload.php?action=news",
 					"submit_mask": {
 						"news_id": "news_form.id"	
 					},
@@ -470,18 +470,18 @@ app.definition =
 							"rich_text": true,
 							"id": "publication",
 							"placeholder": "Publication",
-							"required_on_edit": false,
+							//"required_on_edit": false,
 						},
 						{
 							"type": "date",
 							"id": "created",
-							"required_on_edit": false
+							//"required_on_edit": false
 						},
 						{
 							"type": "text",
 							"id": "link",
 							"placeholder": "Link",
-							"required_on_edit": false,
+							//"required_on_edit": false,
 							"optional_field": true
 						},
 						{
@@ -495,7 +495,13 @@ app.definition =
 					"new": true,
 					"on_submit": [
 						"publications_table"
-					]	
+					],
+					"on_load": [
+						"publication_files_table"
+					],
+					"on_load_load_mask": {
+						"id": "publication_id"	
+					}	
 				},
 				{
 					"type": "table",
@@ -514,7 +520,47 @@ app.definition =
 						"edit_button": "100px",
 						"delete_button": "100px"
 					},
-				}
+				},
+				{
+					"type": "content",
+					"id": "upload_instrucations",
+					"content": "To upload files to publication: edit publication and drag files to area below."
+				},
+				{
+					"type": "file_upload",
+					"id": "publication_file",
+					"form_action": "upload.php?action=publication",
+					"submit_mask": {
+						"publication_id": "publication_form.id"	
+					},
+					"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
+						{
+							"link": "publication_form.id",
+							"value": "set"
+						}
+					],
+					"on_submit": [
+						"publication_files_table"
+					]	
+				},
+				{
+					"type": "table",
+					"id": "publication_files",
+					//"edit": true,
+					"delete": true,
+					//"target": "publication_form",
+					"require_foreign_id": true,
+					"search": true,
+					"columns": {
+						"filename": "File Name",
+						//"created": "Date",
+					},
+					"column_width": {
+						"filename": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px"
+					},
+				},
 			]
 		},
 		{
@@ -627,7 +673,7 @@ app.definition =
 					"target" : "main",
 					"columns": {
 						"created": "Published",
-						"link": "Link"
+						"link": "Available at"
 					},
 					"post_data": {
 						"category_id": "category_id"
@@ -651,8 +697,8 @@ app.definition =
 		{
 			"id": "news",
 			"title": "News",
-			//"click": "article",
-			//"animation": "slide",
+			"click": "article",
+			"animation": "slide",
 			"content": [
 				/*{
 					"type": "carousel",
@@ -673,6 +719,10 @@ app.definition =
 					/*"date_columns": [
 						"created"
 					],*/
+					"image_location": "uploads",
+					"columns": {
+						"created": "Published"
+					},
 					"target" : "main",
 					/*"content": {
 						"username": {
@@ -688,11 +738,9 @@ app.definition =
 		{
 			"id": "article",
 			"class": "article",
+			"click": "news",
+			"animation": "slide",
 			"content": [
-				/*{
-					"type": "image",
-					"id": "front_image"
-				},*/
 				{
 					"type": "title",
 					"id": "title"
@@ -700,7 +748,7 @@ app.definition =
 				{
 					"type": "date",
 					"id": "created",
-					"caption": "Created"
+					"caption": "Published"
 				},
 				/*{
 					"type": "user",
@@ -710,6 +758,11 @@ app.definition =
 				{
 					"type": "content",
 					"id": "content"	
+				},
+				{
+					"type": "image",
+					"id": "image",
+					"image_location": "uploads"
 				},
 				/*{
 					"type": "tags",
