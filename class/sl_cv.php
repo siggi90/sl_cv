@@ -40,9 +40,12 @@ class sl_cv {
 		return $this->sql->get_row($query, 1)['value'];	
 	}
 	
-	function get_title() {
+	function get_index() {
 		$query = "SELECT * FROM settings WHERE property = 'title'";
-		return $this->sql->get_row($query, 1)['value'];	
+		$result = $this->sql->get_row($query, 1);
+		return array(
+			$result['property'] => $result['value']
+		);
 	}
 	
 	function get_menu_index_main() {
@@ -394,6 +397,12 @@ class sl_cv {
 			$result[$row['property']] = $row['value'];	
 		}
 		return $result;
+	}
+	
+	function get_state() {
+		return array(
+			'language' => $this->language
+		);	
 	}
 }
 

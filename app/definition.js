@@ -597,7 +597,7 @@ app.definition =
 		{
 			"id": "index",
 			"title": "Loading",
-			"title_fetch": true,
+			"no_get_id": true,
 			"title_link": "index/introduction",
 			"icon": "sl_cv",
 			"user_access": "everyone",

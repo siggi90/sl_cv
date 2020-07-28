@@ -33,6 +33,7 @@ var app = {
 			}, function(data) {
 				$('.site_links').html(data);
 			});
+			
 			/*branch.root.watch("user_id", function(property, old_value, new_value) {
 				if(new_value != -1) {
 					$('.site_options').hide();
