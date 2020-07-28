@@ -62,6 +62,7 @@ app.definition =
 			"id": "admin",
 			"title": "Manage web page",
 			"user_access": 'user',
+			"display_title": true,
 			"content": [
 				{
 					"type": "frame",
@@ -76,8 +77,9 @@ app.definition =
 						"manage_pages",
 						"manage_publications",
 						"manage_news",
+						"manage_images",
 						"manage_settings",
-						"manage_images"
+						"account"
 					]
 				}
 			]
@@ -423,6 +425,26 @@ app.definition =
 			]
 		},
 		{
+			"id": "account",
+			"title": "Change Password",
+			"user_access": "admin",
+			"content": [
+				{
+					"type": "form",
+					"id": "user",
+					"title": "Change Account Password",
+					"content": [
+						{
+							"type": "password",
+							"id": "password",
+							"placeholder": "Password"
+						}
+					],
+					"save": true
+				}
+			]	
+		},
+		{
 			"id": "manage_publications",
 			"title": "Publications",
 			"user_access": "admin",
@@ -751,9 +773,9 @@ app.definition =
 					//"search": "filter",
 					"click": "article",
 					"animation": "slide",
-					/*"date_columns": [
+					"date_columns": [
 						"created"
-					],*/
+					],
 					"image_location": "uploads",
 					"columns": {
 						"created": "Published"

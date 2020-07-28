@@ -119,10 +119,10 @@ class sl_cv {
 		$this->statement->generate($v, "app.users");
 		$this->sql->execute($this->statement->get());
 		$user_id = $this->sql->last_id($v);	
-		if($user_id != -1) {
+		/*if($user_id != -1) {
 			$this->user_id = $user_id;
 			$_SESSION['user_id'] = $user_id;
-		}
+		}*/
 		return $user_id;
 	}
 	
