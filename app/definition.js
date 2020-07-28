@@ -22,7 +22,7 @@ app.definition =
 				{
 					"type": "content",
 					"id": "introduction",
-					"content": "Welcome to this webpage"
+					"content": "fetch"
 				}
 			]
 		},
@@ -167,6 +167,7 @@ app.definition =
 					"type": "form",
 					"id": "settings",
 					"title": "Settings",
+					"peristant_values": true,
 					"content": [
 						{
 							"type": "text",
@@ -174,14 +175,44 @@ app.definition =
 							"placeholder": "Web Page Title"	
 						},
 						{
+							"type": "textarea",
+							"id": "description",
+							"placeholder": "Web Page Description"	
+						},
+						{
 							"type": "text",
-							"id": "first_language",
-							"placeholder": "English"	
+							"id": "title_2",
+							"placeholder": "Web Page Title (Second Language)"	
+						},
+						{
+							"type": "textarea",
+							"id": "description_2",
+							"placeholder": "Web Page Description (Second Language)"	
 						},
 						{
 							"type": "text",
 							"id": "second_language",
 							"placeholder": "Second Language"	
+						},
+						{
+							"type": "text",
+							"id": "url",
+							"placeholder": "This Web Page URL"	
+						},
+						{
+							"type": "text",
+							"id": "orcid",
+							"placeholder": "Orcid URL"	
+						},
+						{
+							"type": "text",
+							"id": "research_gate",
+							"placeholder": "Research Gate URL"	
+						},
+						{
+							"type": "text",
+							"id": "facebook",
+							"placeholder": "Facebook URL"	
 						}
 					],
 					"save": true
@@ -565,8 +596,9 @@ app.definition =
 		},
 		{
 			"id": "index",
-			"title": "My CV Webpage",
-			
+			"title": "Loading",
+			"title_fetch": true,
+			"title_link": "index/introduction",
 			"icon": "sl_cv",
 			"user_access": "everyone",
 			"user_menu": false,
@@ -618,6 +650,7 @@ app.definition =
 		{
 			"id": "images",
 			"title": "Photos",
+			"title_2": "Myndir",
 			"user_access": "everyone",
 			"content": [
 				{
@@ -653,6 +686,7 @@ app.definition =
 		{
 			"id": "publications",
 			"title": "Publications",
+			"title_2": "Ritaskrá",
 			"user_access": "everyone",
 			"no_get_data": true,
 			"content": [
@@ -697,6 +731,7 @@ app.definition =
 		{
 			"id": "news",
 			"title": "News",
+			"title_2": "Fréttir",
 			"click": "article",
 			"animation": "slide",
 			"content": [

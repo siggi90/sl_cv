@@ -60,7 +60,7 @@
 	.site_options {
 		position:absolute;
 		right:0px;	
-		z-index:99999;	
+		z-index:9;	
 	}
 	
 	.site_options > div {
@@ -78,11 +78,16 @@
 		position: absolute;
 		right: 0px;
 		top: 90px;
+		z-index:9;
 	}
 	
 	.site_links > div {
 		float:left;	
 		padding-right:30px;
+	}
+	
+	svg {
+		fill:teal;	
 	}
 </style>
 </head>
@@ -99,8 +104,10 @@
             <div class='english_language_button'><img src='images/un_flag.png' /></div>
         </div>
         <div class='site_links'>
-            <div class='rss_feed'><i class="icofont-ui-rss" style='color:#ee802f;'></i> RSS</div>
-            <div class='rss_feed'><i class="icofont-ui-rss"></i> RSS</div>
+            <div class='rss_feed'><i class="icofont-ui-rss" style=''></i><!-- RSS--></div><!--color:#ee802f;-->
+            <div class='rss_feed'><i class="icofont-facebook" style=''></i><!-- Facebook--></div>
+            <div class='rss_feed'><img src="images/researchgate_white.png" width="27px"/><!-- <span style="top:-3px; position:relative;">ResearchGate</span>--></div>
+            <div class='rss_feed'><img src="images/orcid.png" width="27px"/><!-- <span style="top:-3px; position:relative;">ORCID</span>--></div>
         </div>
         <div class='body_wrap'>
             <div id='body_frame' class='frame'>

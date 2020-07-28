@@ -28,10 +28,6 @@ class sl_cv {
 		$this->language = $value;	
 	}
 	
-	function get_language() {
-		var_dump($_SESSION['language']);	
-	}
-	
 	function set_property($property, $value) {
 		$query = "DELETE FROM settings WHERE property = '".$property."'";
 		$this->sql->execute($query);
@@ -39,26 +35,25 @@ class sl_cv {
 		$this->sql->execute($query);	
 	}
 	
-	/*function downloads_table($search_term, $offset) {
-		$query = "SELECT downloads.id as id, app.apps.name as image, downloads.title as title, downloads.description as description, href FROM downloads, app.apps WHERE downloads.app_id = app.apps.id";	
-		return $this->sql->get_rows($query, 1);
+	function get_introduction() {
+		$query = "SELECT * FROM settings WHERE property = 'introduction'";
+		return $this->sql->get_row($query, 1)['value'];	
 	}
 	
-	function web_applications_table($search_term, $offset) {
-		$query = "SELECT web_applications.id as id, app.apps.name as image, web_applications.title as title, web_applications.description as description, href FROM web_applications, app.apps WHERE web_applications.app_id = app.apps.id";	
-		return $this->sql->get_rows($query, 1);
+	function get_title() {
+		$query = "SELECT * FROM settings WHERE property = 'title'";
+		return $this->sql->get_row($query, 1)['value'];	
 	}
-	
-	function email_validation($value) {
-		$query = "SELECT COUNT(*) as count FROM app.users WHERE email = '".$value."'";
-		$count = $this->sql->get_row($query)['count'];
-		return !($count > 0);	
-	}*/
 	
 	function get_menu_index_main() {
-		$query = "SELECT id, title FROM pages";	
+		$query;
+		if($this->language == 0) {
+			$query = "SELECT id, title FROM pages";	
+		} else {
+			$query = "SELECT id, title_2 as title FROM pages";	
+		}
 		$rows = $this->sql->get_rows($query, 1);
-		
+			
 		$results = array();
 		$results[] = array('id' => 'news');
 		foreach($rows as $row) {
@@ -212,13 +207,13 @@ class sl_cv {
 	
 	function publication_categories_options() {
 		if($this->language == 0) {
-			$query = "SELECT id as id, category_name as value FROM publication_categories ORDER BY category_name DESC";
+			$query = "SELECT id as id, category_name as value FROM publication_categories WHERE (SELECT COUNT(*) FROM publications WHERE publications.category_id = publication_categories.id) > 0 ORDER BY category_name DESC";
 			$rows = $this->sql->get_rows($query, 1);
 			
 			$rows[] = array('id' => '-1', 'value' => 'By year');
 			return array_reverse($rows);
 		} else {
-			$query = "SELECT id as id, category_name_2 as value FROM publication_categories ORDER BY category_name DESC";
+			$query = "SELECT id as id, category_name_2 as value FROM publication_categories WHERE (SELECT COUNT(*) FROM publications WHERE publications.category_id = publication_categories.id) > 0 ORDER BY category_name DESC";
 			$rows = $this->sql->get_rows($query, 1);
 			
 			$rows[] = array('id' => '-1', 'value' => 'Eftir ártali');
@@ -297,11 +292,14 @@ class sl_cv {
 		return $row;
 	}
 	
-	function news_list($search_term, $offset) {
-		if($this->language == 0) {
+	function news_list($search_term, $offset, $language=NULL) {
+		if($language == NULL) {
+			$language = $this->language;	
+		}
+		if($language == 0) {
 			$query = "SELECT id, title, content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		} else {
-			$query = "SELECT id, title_2, content_2, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
+			$query = "SELECT id, title_2 as title, content_2 as content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		}
 		$rows = $this->sql->get_rows($query, 1);	
 		foreach($rows as $key => $row) {
@@ -317,6 +315,85 @@ class sl_cv {
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
+	}
+	
+	function site_links() {
+		$return_value = "";
+		$language = "en";
+		if($this->language != 0) {
+			$language = "lang";	
+		}
+		$return_value .= '<div class="rss_feed tooltip"><a href="rss_feed.php?language='.$language.'"><i class="icofont-ui-rss"></i></a><span class="tooltiptext">RSS Feed</span></div>';
+		
+		$query = "SELECT * FROM settings WHERE property = 'facebook'";
+		$row = $this->sql->get_row($query, 1);
+		if($row != NULL) {
+			$return_value .= '<div class="facebook tooltip"><a href="'.$row['value'].'"><i class="icofont-facebook"></i></a><span class="tooltiptext">Facebook</span></div>';
+		}
+		
+		$query = "SELECT * FROM settings WHERE property = 'research_gate'";
+		$row = $this->sql->get_row($query, 1);
+		if($row != NULL) {
+			$return_value .= '<div class="research_gate tooltip"><a href="'.$row['value'].'"><img src="images/researchgate_white.png" width="27px"/></a><span class="tooltiptext">ResearchGate</span></div>';
+		}
+		
+		$query = "SELECT * FROM settings WHERE property = 'research_gate'";
+		$row = $this->sql->get_row($query, 1);
+		if($row != NULL) {
+			$return_value .= '<div class="orcid tooltip"><a href="'.$row['value'].'"><img src="images/orcid.png" width="27px"/></a><span class="tooltiptext">ORCID</span></div>';
+		}
+		return $return_value;
+	}
+	
+	function site_info($language) {
+		$result = array();
+		
+		$appendix = "";
+		
+		if($language != 0) {
+			$appendix = "_2";	
+		}
+		
+		$query = "SELECT * FROM settings WHERE property = 'title".$appendix."'";
+		$row = $this->sql->get_row($query, 1);
+		
+		$result['title'] = $row['value'];
+		
+		$query = "SELECT * FROM settings WHERE property = 'description".$appendix."'";
+		$row = $this->sql->get_row($query, 1);
+		
+		$result['description'] = $row['value'];
+		
+		$query = "SELECT * FROM settings WHERE property = 'url'";
+		$row = $this->sql->get_row($query, 1);
+		
+		$result['url'] = $row['value'];
+		
+		return $result;
+	}
+	
+	function _settings($v) {
+		foreach($v as $key => $value) {
+			$values = array(
+				'property' => $key,
+				'value' => $value
+			);
+			$query = "DELETE FROM settings WHERE property = '".$key."'";
+			$this->sql->execute($query);
+			$this->statement->generate($values, "sl_cv.settings");
+			$this->sql->execute($this->statement->get());
+			$id = $this->sql->last_id($values);
+		}
+	}
+	
+	function get_settings() {
+		$query = "SELECT * FROM settings";
+		$rows = $this->sql->get_rows($query, 1);	
+		$result = array();
+		foreach($rows as $row) {
+			$result[$row['property']] = $row['value'];	
+		}
+		return $result;
 	}
 }
 

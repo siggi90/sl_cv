@@ -1,4 +1,5 @@
 var app = {
+	//user_id: "-1",
 	init: function() {
 		var branch = this;
 		$.post("/app/base.js", function(data) {
@@ -11,7 +12,15 @@ var app = {
 	},
 	finish_init: function() {	
 		var branch = this;
-		branch.user_menu.init();
+		branch.user_menu.init(function() {
+			if(branch.user_id != -1) {
+				$('.site_options').hide();
+				$('.site_links').hide();	
+			} else {
+				$('.site_options').show();
+				$('.site_links').show();
+			}
+		});
 		branch.interpretation.init();
 		branch.overview.init_clock();
 		branch.language_options.init();
@@ -19,6 +28,20 @@ var app = {
 	language_options: {
 		init: function() {
 			var branch = this;
+			$.post(branch.root.actions, {
+				'action': 'site_links'
+			}, function(data) {
+				$('.site_links').html(data);
+			});
+			/*branch.root.watch("user_id", function(property, old_value, new_value) {
+				if(new_value != -1) {
+					$('.site_options').hide();
+					$('.site_links').hide();	
+				} else {
+					$('.site_options').show();
+					$('.site_links').show();
+				}
+			});*/
 			$('.second_language_button').click(function() {
 				$.post(branch.root.actions, {
 					'action': 'set_language',
