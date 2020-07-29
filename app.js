@@ -63,6 +63,10 @@ var app = {
 	}
 }
 
-$(document).ready(function() {
+/*$(wubd).ready(function() {
+	app.init();
+});*/
+
+$(window).on('load', function() {
 	app.init();
 });

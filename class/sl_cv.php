@@ -8,10 +8,30 @@ class sl_cv {
 	private $list_start = 5;
 	private $language;
 	
+	public $function_access = array(
+		'admin' => array(
+			'_page',
+			'_user',
+			'_image',
+			'_publication',
+			'_publication_category',
+			'_news',
+			'delete_*',
+			'_news_image',
+			'_settings'
+		)
+	);
+	
 	function __construct($sql, $statement, $user_id) {
 		$this->sql = $sql;
 		$this->statement = $statement;
 		$this->user_id = $user_id;
+		
+		
+		$this->statement->set_callback(function($value) {
+			$value = str_replace(array("<pre>","</pre>","<div>","</div>"), "", $value);
+			return $value;
+		});
 		
 		if(isset($_SESSION['language'])) {
 			$this->language = $_SESSION['language'];
