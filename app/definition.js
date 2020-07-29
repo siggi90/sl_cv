@@ -204,17 +204,32 @@ app.definition =
 						{
 							"type": "text",
 							"id": "orcid",
-							"placeholder": "Orcid URL"	
+							"placeholder": "Orcid URL (Optional)",
+							"optional_field": true	
 						},
 						{
 							"type": "text",
 							"id": "research_gate",
-							"placeholder": "Research Gate URL"	
+							"placeholder": "Research Gate URL (Optional)",
+							"optional_field": true	
 						},
 						{
 							"type": "text",
 							"id": "facebook",
-							"placeholder": "Facebook URL"	
+							"placeholder": "Facebook URL (Optional)",
+							"optional_field": true	
+						},
+						{
+							"type": "textarea",
+							"rich_text": true,
+							"id": "introduction",
+							"placeholder": "Introduction"	
+						},
+						{
+							"type": "textarea",
+							"rich_text": true,
+							"id": "introduction_2",
+							"placeholder": "Introduction (Second Language)"	
 						}
 					],
 					"save": true
@@ -360,7 +375,7 @@ app.definition =
 							"id": "title_2",
 							"placeholder": "Page Title (Second Language)"
 						},
-						{
+						/*{
 							"type": "textarea",
 							"id": "description",
 							"placeholder": "Page Description (English)"
@@ -369,7 +384,7 @@ app.definition =
 							"type": "textarea",
 							"id": "description_2",
 							"placeholder": "Page Description (Second Language)"
-						},
+						},*/
 						{
 							"type": "textarea",
 							"rich_text": true,
@@ -412,6 +427,32 @@ app.definition =
 						"edit_button": "100px",
 						"delete_button": "100px",
 						"custom_action": "100px" 
+					},
+					/*"custom_actions": {
+						"view": {
+							"target_href": "stats",
+							"href_data": {
+								"user_group_id": "id"
+							}
+						}
+					}*/
+				},
+				{
+					"type": "title",
+					"id": "reorder_table_title",
+					"value": "Reorder Menu Buttons"
+				},
+				{
+					"type": "table",
+					"id": "page_order",
+					"no_header": true,
+					"drag_reorder": true,
+					"columns": {
+						"title": "Title"
+					},
+					"column_width": {
+						"title": "auto",
+						"drag": "25px"
 					},
 					/*"custom_actions": {
 						"view": {
@@ -647,10 +688,10 @@ app.definition =
 					"type": "title",
 					"id": "title"				
 				},
-				{
+				/*{
 					"type": "content",
 					"id": "description"				
-				},
+				},*/
 				{
 					"type": "content",
 					"id": "content"				
@@ -734,6 +775,9 @@ app.definition =
 					"post_data": {
 						"category_id": "category_id"
 					},
+					"default_values": {
+						"category_id": "-1"
+					}
 					//"click": "article",
 					//"animation": "slide",
 					/*"date_columns": [

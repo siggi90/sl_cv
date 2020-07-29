@@ -1,4 +1,4 @@
-<div class='overlay_black' style=''>
+<div class='overlay_black' style='display:none;'>
 	<div class='user_options' style='display:none;'>
     	<div class='logged_in_options'>
             <div class='option_title logout'>

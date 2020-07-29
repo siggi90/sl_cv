@@ -36,7 +36,12 @@ class sl_cv {
 	}
 	
 	function get_introduction() {
-		$query = "SELECT * FROM settings WHERE property = 'introduction'";
+		$suffix = "";
+		if($this->language != 0) {
+			$suffix = "_2";	
+		}
+		
+		$query = "SELECT * FROM settings WHERE property = 'introduction".$suffix."'";
 		return $this->sql->get_row($query, 1)['value'];	
 	}
 	
@@ -58,7 +63,6 @@ class sl_cv {
 		$rows = $this->sql->get_rows($query, 1);
 			
 		$results = array();
-		$results[] = array('id' => 'news');
 		foreach($rows as $row) {
 			$results[] = array(
 				'id' => $row['id'],
@@ -66,9 +70,55 @@ class sl_cv {
 				'page' => 'custom_page'
 			);	
 		}
+		$results[] = array('id' => 'news');
 		$results[] = array('id' => 'publications');
 		$results[] = array('id' => 'images');
-		return $results;
+		
+		$page_order = array();
+		$query = "SELECT * FROM menu_order ORDER BY order_value ASC";
+		$rows = $this->sql->get_rows($query, 1);
+		foreach($rows as $row) {
+			$page_order[$row['page_id']] = $row['order_value'];	
+		}
+		
+		return array(
+			'pages' => $results,
+			'order' => $page_order	
+		);
+	}
+	
+	function page_order_table() {
+		$query = "SELECT * FROM pages";
+		$rows = $this->sql->get_rows($query, 1);
+		$rows[] = array('id' => 'news', 'title' => 'News');
+		$rows[] = array('id' => 'publications', 'title' => 'Publications');
+		$rows[] = array('id' => 'images', 'title' => 'Images');
+		
+		foreach($rows as $key => $row) {
+			$query = "SELECT * FROM menu_order WHERE page_id = '".$row['id']."'";
+			$result = $this->sql->get_row($query, 1);
+			if($result != NULL) {
+				$rows[$key]['order'] = $result['order_value'];	
+			} else {
+				$rows[$key]['order'] = -1;	
+			}
+		}
+		usort($rows, function($a, $b) {
+			return $a['order'] > $b['order'];
+		});
+		return $rows;
+	}
+	
+	function page_order_set_order($v) {
+		var_dump($v);
+		foreach($v as $key => $value) {
+			if($value != '-1') {
+				$query = "DELETE FROM menu_order WHERE page_id = '".$value."'";
+				$this->sql->execute($query);
+				$query = "INSERT INTO menu_order (page_id, order_value) VALUES('".$value."', ".$key.")";
+				$this->sql->execute($query);
+			}
+		}
 	}
 	
 	function get_custom_page($id) {
@@ -96,7 +146,7 @@ class sl_cv {
 	}
 	
 	function _page($v) {
-		$this->statement->generate($v, "sl_cv.pages");
+		$this->statement->generate($v, "pages");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
@@ -127,7 +177,7 @@ class sl_cv {
 	}
 	
 	function _image($v) {
-		$this->statement->generate($v, "sl_cv.images");
+		$this->statement->generate($v, "images");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
@@ -230,14 +280,14 @@ class sl_cv {
 	}
 	
 	function _publication_category($v) {
-		$this->statement->generate($v, "sl_cv.publication_categories");
+		$this->statement->generate($v, "publication_categories");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
 	}
 	
 	function _publication($v) {
-		$this->statement->generate($v, "sl_cv.publications");
+		$this->statement->generate($v, "publications");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
@@ -264,14 +314,14 @@ class sl_cv {
 	}
 	
 	function _publication_file($v) {
-		$this->statement->generate($v, "sl_cv.publication_files");
+		$this->statement->generate($v, "publication_files");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
 	}
 	
 	function _news($v) {
-		$this->statement->generate($v, "sl_cv.news");
+		$this->statement->generate($v, "news");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
@@ -314,7 +364,7 @@ class sl_cv {
 	}
 	
 	function _news_image($v) {
-		$this->statement->generate($v, "sl_cv.news_images");
+		$this->statement->generate($v, "news_images");
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
@@ -383,7 +433,7 @@ class sl_cv {
 			);
 			$query = "DELETE FROM settings WHERE property = '".$key."'";
 			$this->sql->execute($query);
-			$this->statement->generate($values, "sl_cv.settings");
+			$this->statement->generate($values, "settings");
 			$this->sql->execute($this->statement->get());
 			$id = $this->sql->last_id($values);
 		}
