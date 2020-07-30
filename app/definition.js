@@ -254,7 +254,7 @@ app.definition =
 				{
 					"type": "form",
 					"id": "news",
-					"title": "New Page",
+					"title": "New News Article",
 					"new_on_save": true,
 					"content": [
 						{
@@ -509,7 +509,8 @@ app.definition =
 						{
 							"type": "text",
 							"id": "category_description",
-							"placeholder": "Category description (English)"
+							"placeholder": "Category description (English)",
+							"optional_field": true
 						},
 						{
 							"type": "text",
@@ -519,11 +520,12 @@ app.definition =
 						{
 							"type": "text",
 							"id": "category_description_2",
-							"placeholder": "Category description (Second Language)"
+							"placeholder": "Category description (Second Language)",
+							"optional_field": true
 						}
 					],
 					"save": true,
-					"new": true,
+					//"new": true,
 					"on_submit": [
 						"publication_categories_table"
 					],
@@ -569,6 +571,7 @@ app.definition =
 						{
 							"type": "date",
 							"id": "created",
+							"default_value": "Y-01-01"
 							//"required_on_edit": false
 						},
 						{
@@ -581,7 +584,7 @@ app.definition =
 						{
 							"type": "hidden",
 							"id": "category_id",
-							"required_on_edit": true,
+							//"required_on_edit": true,
 							"persist_value": true
 						}
 					],

@@ -63,6 +63,18 @@ var app = {
 	}
 }
 
+$('.selector').each(function() {
+  var keepStyle, $el;
+  $el = $(this);
+  keepStyle = {
+    "font-weight": $el.css('font-weight'),
+    "font-style" : $el.css('font-style')
+  };
+
+  $el.removeAttr('style')
+    .css(keepStyle);
+})
+
 /*$(wubd).ready(function() {
 	app.init();
 });*/

@@ -42,6 +42,11 @@ class sl_cv {
 		}
 	}
 	
+	function delete_publication_categorie($id) {
+		$query = "DELETE FROM publication_categories WHERE id = ".$id;
+		$this->sql->execute($query);	
+	}
+	
 	function set_language($value) {
 		//$this->set_property("language", $value);
 		$_SESSION['language'] = $value;
