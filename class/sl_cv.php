@@ -257,7 +257,7 @@ class sl_cv {
 	}
 	
 	function publications_list($search_term, $offset, $category_id=-1) {
-		$query = "SELECT id, DATE_FORMAT(created, '%Y') as created, link, publication as content FROM publications"; //%M %d
+		$query = "SELECT id, link, publication as content FROM publications"; //%M %d
 		if($category_id != -1) {
 			$query .= " WHERE category_id = ".$category_id;	
 		}
@@ -279,7 +279,7 @@ class sl_cv {
 	}
 	
 	function publication_categories_table($search_term, $offset) {
-		$query = "SELECT * FROM publication_categories";
+		$query = "SELECT id, category_name FROM publication_categories";
 		return $this->sql->get_rows($query, 1);	
 	}
 	
@@ -302,6 +302,11 @@ class sl_cv {
 	function get_publication_categorie($id) {
 		$query = "SELECT * FROM publication_categories WHERE id = ".$id;
 		return $this->sql->get_row($query, 1);	
+	}
+	
+	function get_category_select() {
+		$query = "SELECT id, category_name as title FROM publication_categories";	
+		return $this->sql->get_rows($query, 1);
 	}
 	
 	function _publication_category($v) {
@@ -329,8 +334,10 @@ class sl_cv {
 	}
 	
 	function publication_files_table($search_term, $offset, $publication_id) {
-		$query = "SELECT * FROM publication_files WHERE publication_id = ".$publication_id;
-		return $this->sql->get_rows($query, 1);
+		if($publication_id != -1) {
+			$query = "SELECT * FROM publication_files WHERE publication_id = ".$publication_id;
+			return $this->sql->get_rows($query, 1);
+		}
 	}
 	
 	function delete_publication_file($id) {
@@ -355,6 +362,11 @@ class sl_cv {
 	function news_table($search_term, $offset) {
 		$query = "SELECT id, title FROM news ORDER BY id DESC";
 		return $this->sql->get_rows($query, 1);	
+	}
+	
+	function delete_new($id) {
+		$query = "DELETE FROM news WHERE id = ".$id;
+		$this->sql->execute($query);
 	}
 	
 	function get_new($id) {
@@ -405,19 +417,19 @@ class sl_cv {
 		
 		$query = "SELECT * FROM settings WHERE property = 'facebook'";
 		$row = $this->sql->get_row($query, 1);
-		if($row != NULL) {
+		if($row != NULL && $row['value'] != "") {
 			$return_value .= '<div class="facebook tooltip"><a href="'.$row['value'].'"><i class="icofont-facebook"></i></a><span class="tooltiptext">Facebook</span></div>';
 		}
 		
 		$query = "SELECT * FROM settings WHERE property = 'research_gate'";
 		$row = $this->sql->get_row($query, 1);
-		if($row != NULL) {
+		if($row != NULL && $row['value'] != "") {
 			$return_value .= '<div class="research_gate tooltip"><a href="'.$row['value'].'"><img src="images/researchgate_white.png" width="27px"/></a><span class="tooltiptext">ResearchGate</span></div>';
 		}
 		
-		$query = "SELECT * FROM settings WHERE property = 'research_gate'";
+		$query = "SELECT * FROM settings WHERE property = 'orcid'";
 		$row = $this->sql->get_row($query, 1);
-		if($row != NULL) {
+		if($row != NULL && $row['value'] != "") {
 			$return_value .= '<div class="orcid tooltip"><a href="'.$row['value'].'"><img src="images/orcid.png" width="27px"/></a><span class="tooltiptext">ORCID</span></div>';
 		}
 		return $return_value;

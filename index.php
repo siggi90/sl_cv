@@ -4,6 +4,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="/icofont.min.css">
 <title>Loading</title>
+<link rel="alternate" type="application/rss+xml" 
+  title="RSS Feed" 
+  href="rss_feed.php?lang=en" />
 <script type='text/javascript' src='/jquery.js'></script>
 <script type='text/javascript' src='/jquery-ui.min.js'></script>
 <script type='text/javascript' src='app.js'></script>
@@ -69,15 +72,18 @@
 	
 	.site_options img {
 		width:45px;
-		padding:20px;
-		padding-left:0px;
+	}
+	
+	.site_options > div {
+		margin:20px;
+		margin-left:0px;	
 	}
 	
 	.site_links {
 		color:#fff;	
 		position: absolute;
 		right: 0px;
-		top: 90px;
+		top: 130px;
 		z-index:9;
 	}
 	
@@ -88,6 +94,11 @@
 	
 	svg {
 		fill:teal;	
+	}
+	
+	.department_container {
+		border-radius:5px;
+		overflow:hidden;
 	}
 </style>
 </head>
@@ -102,6 +113,7 @@
         <div class='site_options'>
             <div class='second_language_button'><img src='images/second_language_flag.png' /></div>
             <div class='english_language_button'><img src='images/un_flag.png' /></div>
+            <div class='department_container'><img style="width:95px;" src='images/dep.png' /></div>
         </div>
         <div class='site_links'>
             <div class='rss_feed'><i class="icofont-ui-rss" style=''></i><!-- RSS--></div><!--color:#ee802f;-->

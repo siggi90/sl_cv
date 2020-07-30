@@ -163,7 +163,7 @@ app.definition =
 		{
 			"id": "manage_settings",
 			"title": "Settings",
-			"user_accecss": "admin",
+			"user_access": "admin",
 			"content": [
 				{
 					"type": "form",
@@ -506,23 +506,23 @@ app.definition =
 							"id": "category_name",
 							"placeholder": "Category Name (English)"
 						},
-						{
+						/*{
 							"type": "text",
 							"id": "category_description",
 							"placeholder": "Category description (English)",
 							"optional_field": true
-						},
+						},*/
 						{
 							"type": "text",
 							"id": "category_name_2",
 							"placeholder": "Category Name (Second Language)"
 						},
-						{
+						/*{
 							"type": "text",
 							"id": "category_description_2",
 							"placeholder": "Category description (Second Language)",
 							"optional_field": true
-						}
+						}*/
 					],
 					"save": true,
 					//"new": true,
@@ -546,11 +546,11 @@ app.definition =
 					"target": "publication_category_form",
 					"columns": {
 						"category_name": "Category Name",
-						"category_description": "Description"
+						//"category_description": "Description"
 					},
 					"column_width": {
 						"category_name": "auto",
-						"category_description": "auto",
+						//"category_description": "auto",
 						"edit_button": "100px",
 						"delete_button": "100px"
 					}
@@ -581,11 +581,29 @@ app.definition =
 							//"required_on_edit": false,
 							"optional_field": true
 						},
-						{
+						/*{
 							"type": "hidden",
 							"id": "category_id",
 							//"required_on_edit": true,
 							"persist_value": true
+						}*/,
+						{
+							"type": "select",
+							"id": "category",
+							"persist_value": true,
+							"content": "fetch",
+							"on_change": [
+								"publications_table"	
+							],
+							"on_change_load_mask": {
+								"id": "category_id"	
+							}
+							/*"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
+								{
+									"link": "article_form.content_type",
+									"value": "1"
+								}
+							]*/	
 						}
 					],
 					"save": true,
@@ -610,7 +628,7 @@ app.definition =
 					"search": true,
 					"columns": {
 						"publication": "Publication",
-						"created": "Date",
+						//"created": "Date",
 					},
 					"column_width": {
 						"publication": "auto",
@@ -667,7 +685,7 @@ app.definition =
 			"title_link": "index/introduction",
 			"icon": "sl_cv",
 			"user_access": "everyone",
-			"user_menu": false,
+			//"user_menu": false,
 			"content": [
 				{
 					"type": "frame",

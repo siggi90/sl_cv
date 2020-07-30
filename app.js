@@ -14,9 +14,11 @@ var app = {
 		var branch = this;
 		branch.user_menu.init(function() {
 			if(branch.user_id != -1) {
+				$('.user_info').show();
 				$('.site_options').hide();
 				$('.site_links').hide();	
 			} else {
+				$('.user_info').hide();
 				$('.site_options').show();
 				$('.site_links').show();
 			}
