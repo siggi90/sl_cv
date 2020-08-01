@@ -39,6 +39,7 @@ class sl_cv {
 			$query = "SELECT value FROM settings WHERE property = 'language'";
 			$row = $this->sql->get_row($query, 1);
 			$this->language = $row['value'];	
+			$_SESSION['language'] = $this->language;
 		}
 	}
 	
@@ -66,8 +67,8 @@ class sl_cv {
 			$suffix = "_2";	
 		}
 		
-		$query = "SELECT * FROM settings WHERE property = 'introduction".$suffix."'";
-		return $this->sql->get_row($query, 1)['value'];	
+		$query = "SELECT value as introduction FROM settings WHERE property = 'introduction".$suffix."'";
+		return $this->sql->get_row($query, 1);	
 	}
 	
 	function get_index() {
@@ -252,7 +253,7 @@ class sl_cv {
 	}
 	
 	function publications_table($search_term, $offset, $category_id) {
-		$query = "SELECT id, publication, DATE_FORMAT(created, '%M %d %Y') as created, link  FROM publications WHERE category_id = ".$category_id;
+		$query = "SELECT id, publication, created, link  FROM publications WHERE category_id = ".$category_id." ORDER BY created DESC";
 		return $this->sql->get_rows($query, 1);	
 	}
 	
@@ -337,6 +338,8 @@ class sl_cv {
 		if($publication_id != -1) {
 			$query = "SELECT * FROM publication_files WHERE publication_id = ".$publication_id;
 			return $this->sql->get_rows($query, 1);
+		} else {
+			return array();	
 		}
 	}
 	

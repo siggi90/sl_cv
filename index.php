@@ -1,9 +1,12 @@
+<?
+	session_start();
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="/icofont.min.css">
-<title>Loading</title>
+<title></title>
 <link rel="alternate" type="application/rss+xml" 
   title="RSS Feed" 
   href="rss_feed.php?lang=en" />
@@ -25,18 +28,24 @@
 		/*background-size:150%;*/
 		word-wrap: break-word;
 		/*background: url('/images/green.png');*/
-		background:rgba(185,32,32,1);
+		background:rgba(0,0,0,1);
 		font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
 	}	
 	
+	p, span {
+		font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+	}
+	
 	.body_container {
 	 	background:  rgb(132, 250, 224);
-		background:linear-gradient(30deg, rgba(250,138,54,0.7) 0%, rgba(79, 0, 19, 0.7) 88%);
+		/*background:linear-gradient(30deg, rgba(250,138,54,0.7) 0%, rgba(79, 0, 19, 0.7) 88%);*/
+		background:linear-gradient(30deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.7) 88%);
 	}
 	
 	.secondary_back {
 		/*background:linear-gradient(30deg, rgba(250,138,54,0.7) 0%, rgba(0,0,0,0.7) 88%); /*linear-gradient(30deg, rgba(250,138,54,0.7) 0%, rgba(0,7,254,0) 88%);*/
-		background:linear-gradient(129deg, rgb(132, 250, 224) 0%, rgb(255, 197, 254) 108%);
+		/*background:linear-gradient(129deg, rgb(132, 250, 224) 0%, rgb(255, 197, 254) 108%);*/
+		background:linear-gradient(129deg, rgb(91, 42, 12) 0%, rgb(255, 197, 254) 108%);
 		position:fixed;
 		top:0px;
 		bottom:0px;
@@ -97,8 +106,6 @@
 	}
 	
 	.department_container {
-		border-radius:5px;
-		overflow:hidden;
 	}
 </style>
 </head>
@@ -113,7 +120,17 @@
         <div class='site_options'>
             <div class='second_language_button'><img src='images/second_language_flag.png' /></div>
             <div class='english_language_button'><img src='images/un_flag.png' /></div>
-            <div class='department_container'><img style="width:95px;" src='images/dep.png' /></div>
+            <div class='department_container'>
+            <?
+				if(!isset($_SESSION['language']) || $_SESSION['language'] == 0) {
+					echo "<a href='https://english.hi.is/faculty_of_social_work'>";
+				} else {
+					echo "<a href='https://www.hi.is/felagsradgjafardeild'>";
+				}
+			?>
+            <img style="width:95px;" src='images/dep.png' />
+            </a>
+            </div>
         </div>
         <div class='site_links'>
             <div class='rss_feed'><i class="icofont-ui-rss" style=''></i><!-- RSS--></div><!--color:#ee802f;-->

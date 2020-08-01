@@ -18,11 +18,11 @@ app.definition =
 			"title": "Introduction",
 			"title_append": true,
 			"user_access": "everyone",
+			"no_get_id": true,
 			"content": [
 				{
 					"type": "content",
-					"id": "introduction",
-					"content": "fetch"
+					"id": "introduction"
 				}
 			]
 		},
@@ -419,8 +419,7 @@ app.definition =
 					"search": true,
 					"target": "page_form",
 					"columns": {
-						"title": "Title",
-						"description": "Description"
+						"title": "Title"
 					},
 					"column_width": {
 						"title": "auto",
@@ -559,7 +558,7 @@ app.definition =
 					"type": "form",
 					"id": "publication",
 					"title": "New Publication",
-					"new_on_save": true,
+					//"new_on_save": true,
 					"content": [
 						{
 							"type": "textarea",
@@ -619,24 +618,6 @@ app.definition =
 					}	
 				},
 				{
-					"type": "table",
-					"id": "publications",
-					"edit": true,
-					"delete": true,
-					"target": "publication_form",
-					"require_foreign_id": true,
-					"search": true,
-					"columns": {
-						"publication": "Publication",
-						//"created": "Date",
-					},
-					"column_width": {
-						"publication": "auto",
-						"edit_button": "100px",
-						"delete_button": "100px"
-					},
-				},
-				{
 					"type": "content",
 					"id": "upload_instrucations",
 					"content": "To upload files to publication: edit publication and drag files to area below."
@@ -665,7 +646,6 @@ app.definition =
 					"delete": true,
 					//"target": "publication_form",
 					"require_foreign_id": true,
-					"search": true,
 					"columns": {
 						"filename": "File Name",
 						//"created": "Date",
@@ -676,11 +656,29 @@ app.definition =
 						"delete_button": "100px"
 					},
 				},
+				{
+					"type": "table",
+					"id": "publications",
+					"edit": true,
+					"delete": true,
+					"target": "publication_form",
+					"require_foreign_id": true,
+					"search": true,
+					"columns": {
+						"publication": "Publication",
+						//"created": "Date",
+					},
+					"column_width": {
+						"publication": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px"
+					},
+				},
 			]
 		},
 		{
 			"id": "index",
-			"title": "Loading",
+			"title": "",
 			"no_get_id": true,
 			"title_link": "index/introduction",
 			"icon": "sl_cv",
@@ -702,7 +700,7 @@ app.definition =
 		},
 		{
 			"id": "custom_page",
-			"title": "Loading",
+			"title": "",
 			"user_access": "everyone",
 			"content": [
 				{
