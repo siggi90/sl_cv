@@ -15,9 +15,11 @@ var app = {
 		branch.user_menu.init(function() {
 			if(branch.user_id != -1) {
 				$('.user_info').show();
+				$('.department_container').hide();
 				$('.site_options').hide();
 				$('.site_links').hide();	
 			} else {
+				$('.department_container').show();
 				$('.user_info').hide();
 				$('.site_options').show();
 				$('.site_links').show();
@@ -65,7 +67,7 @@ var app = {
 	}
 }
 
-$('.selector').each(function() {
+/*$('.selector').each(function() {
   var keepStyle, $el;
   $el = $(this);
   keepStyle = {
@@ -75,7 +77,7 @@ $('.selector').each(function() {
 
   $el.removeAttr('style')
     .css(keepStyle);
-})
+})*/
 
 /*$(wubd).ready(function() {
 	app.init();

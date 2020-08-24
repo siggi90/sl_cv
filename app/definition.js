@@ -26,38 +26,6 @@ app.definition =
 				}
 			]
 		},
-		/*{
-			"id": "sign_up",
-			"title": "Sign Up",
-			"user_access": "everyone",
-			"content": [
-				{
-					"type": "form",
-					"id": "user",
-					"title": "Create Account",
-					"content": [
-						{
-							"type": "text",
-							"id": "email",
-							"validation": true,
-							"placeholder": "Email (username)"
-						},
-						{
-							"type": "password",
-							"id": "password",
-							"placeholder": "Password"
-						}
-					],
-					"save": true,
-					"redirect": "/account/"
-				},
-				{
-					"type": "content",
-					"id": "instructions",
-					"content": "Your Noob account gives you access to the Noob Support page and Noob web applications. <!--The account is free.<br><br>Noob web applications include NumEval and NumRand.-->"	
-				}
-			]	
-		},*/
 		{
 			"id": "admin",
 			"title": "Manage web page",
@@ -67,6 +35,7 @@ app.definition =
 				{
 					"type": "frame",
 					"id": "main",
+					"default_page": "manage_pages"
 				},
 				{
 					"type": "menu",
@@ -104,29 +73,9 @@ app.definition =
 				{
 					"type": "list",
 					"id": "images",
-					//"search": "filter"
-					//"click": "article",
-					//"animation": "slide",
-					/*"date_columns": [
-						"created"
-					],*/
 					"image_location": "uploads",
 					"target" : "main",
 					"click": "edit_image",
-					//"animation": "slide",
-					/*"edit": true,
-					"edit_fields": [
-						"description"
-					],
-					"delete": true,
-					/*"content": {
-						"username": {
-							"target": "main"	
-						},
-						"keywords": {
-								
-						}
-					}*/
 				}
 			]
 		},
@@ -140,14 +89,15 @@ app.definition =
 					"id": "image",
 					"title": "Edit Image Description",
 					"content": [
-						/*{
-							"type": "hidden",
-							"id": "id"
-						},*/
 						{
 							"type": "text",
 							"id": "description",
 							"placeholder": "Description",
+						},
+						{
+							"type": "text",
+							"id": "description_2",
+							"placeholder": "Description (Second Language)",
 						}
 					],
 					"delete": true,
@@ -155,7 +105,8 @@ app.definition =
 					"save": true,
 					"get_load_mask": {
 						"id": "id",
-						"description": "description"	
+						"description": "description",
+						"description_2": "description_2"	
 					}
 				}
 			]
@@ -267,16 +218,6 @@ app.definition =
 							"id": "title_2",
 							"placeholder": "News Title (Second Language)"
 						},
-						/*{
-							"type": "textarea",
-							"id": "description",
-							"placeholder": "Page Description (English)"
-						},
-						{
-							"type": "textarea",
-							"id": "description_2",
-							"placeholder": "Page Description (Second Language)"
-						},*/
 						{
 							"type": "textarea",
 							"rich_text": true,
@@ -295,13 +236,6 @@ app.definition =
 					"on_submit": [
 						"news_table"
 					],
-					/*"on_load": [
-						"users_table",
-						"user_form"
-					],*/
-					/*"on_load_load_mask": {
-						"id": "user_group_id"	
-					}*/	
 				},
 				{
 					"type": "content",
@@ -315,7 +249,7 @@ app.definition =
 					"submit_mask": {
 						"news_id": "news_form.id"	
 					},
-					"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
+					"dependencies": [
 						{
 							"link": "news_form.id",
 							"value": "set"
@@ -338,14 +272,6 @@ app.definition =
 						"delete_button": "100px",
 						"custom_action": "100px" 
 					},
-					/*"custom_actions": {
-						"view": {
-							"target_href": "stats",
-							"href_data": {
-								"user_group_id": "id"
-							}
-						}
-					}*/
 				},
 			]
 		},
@@ -375,16 +301,6 @@ app.definition =
 							"id": "title_2",
 							"placeholder": "Page Title (Second Language)"
 						},
-						/*{
-							"type": "textarea",
-							"id": "description",
-							"placeholder": "Page Description (English)"
-						},
-						{
-							"type": "textarea",
-							"id": "description_2",
-							"placeholder": "Page Description (Second Language)"
-						},*/
 						{
 							"type": "textarea",
 							"rich_text": true,
@@ -401,15 +317,9 @@ app.definition =
 					"save": true,
 					"new": true,
 					"on_submit": [
-						"pages_table"
+						"pages_table",
+						"page_order_table"
 					],
-					/*"on_load": [
-						"users_table",
-						"user_form"
-					],*/
-					/*"on_load_load_mask": {
-						"id": "user_group_id"	
-					}*/	
 				},
 				{
 					"type": "table",
@@ -427,14 +337,6 @@ app.definition =
 						"delete_button": "100px",
 						"custom_action": "100px" 
 					},
-					/*"custom_actions": {
-						"view": {
-							"target_href": "stats",
-							"href_data": {
-								"user_group_id": "id"
-							}
-						}
-					}*/
 				},
 				{
 					"type": "title",
@@ -453,14 +355,6 @@ app.definition =
 						"title": "auto",
 						"drag": "25px"
 					},
-					/*"custom_actions": {
-						"view": {
-							"target_href": "stats",
-							"href_data": {
-								"user_group_id": "id"
-							}
-						}
-					}*/
 				},
 			]
 		},
@@ -505,26 +399,13 @@ app.definition =
 							"id": "category_name",
 							"placeholder": "Category Name (English)"
 						},
-						/*{
-							"type": "text",
-							"id": "category_description",
-							"placeholder": "Category description (English)",
-							"optional_field": true
-						},*/
 						{
 							"type": "text",
 							"id": "category_name_2",
 							"placeholder": "Category Name (Second Language)"
 						},
-						/*{
-							"type": "text",
-							"id": "category_description_2",
-							"placeholder": "Category description (Second Language)",
-							"optional_field": true
-						}*/
 					],
 					"save": true,
-					//"new": true,
 					"on_submit": [
 						"publication_categories_table"
 					],
@@ -541,15 +422,12 @@ app.definition =
 					"id": "publication_categories",
 					"edit": true,
 					"delete": true,
-					//"search": true,
 					"target": "publication_category_form",
 					"columns": {
 						"category_name": "Category Name",
-						//"category_description": "Description"
 					},
 					"column_width": {
 						"category_name": "auto",
-						//"category_description": "auto",
 						"edit_button": "100px",
 						"delete_button": "100px"
 					}
@@ -558,34 +436,24 @@ app.definition =
 					"type": "form",
 					"id": "publication",
 					"title": "New Publication",
-					//"new_on_save": true,
 					"content": [
 						{
 							"type": "textarea",
 							"rich_text": true,
 							"id": "publication",
 							"placeholder": "Publication",
-							//"required_on_edit": false,
 						},
 						{
 							"type": "date",
 							"id": "created",
 							"default_value": "Y-01-01"
-							//"required_on_edit": false
 						},
 						{
 							"type": "text",
 							"id": "link",
 							"placeholder": "Link",
-							//"required_on_edit": false,
 							"optional_field": true
 						},
-						/*{
-							"type": "hidden",
-							"id": "category_id",
-							//"required_on_edit": true,
-							"persist_value": true
-						}*/,
 						{
 							"type": "select",
 							"id": "category",
@@ -597,12 +465,6 @@ app.definition =
 							"on_change_load_mask": {
 								"id": "category_id"	
 							}
-							/*"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
-								{
-									"link": "article_form.content_type",
-									"value": "1"
-								}
-							]*/	
 						}
 					],
 					"save": true,
@@ -629,7 +491,7 @@ app.definition =
 					"submit_mask": {
 						"publication_id": "publication_form.id"	
 					},
-					"dependencies": [	//gæti líka verið table með dependency a select, þannig að þegar selectid breytist breytist hverfur og birtist önnur tafla
+					"dependencies": [
 						{
 							"link": "publication_form.id",
 							"value": "set"
@@ -642,13 +504,10 @@ app.definition =
 				{
 					"type": "table",
 					"id": "publication_files",
-					//"edit": true,
 					"delete": true,
-					//"target": "publication_form",
 					"require_foreign_id": true,
 					"columns": {
 						"filename": "File Name",
-						//"created": "Date",
 					},
 					"column_width": {
 						"filename": "auto",
@@ -666,7 +525,6 @@ app.definition =
 					"search": true,
 					"columns": {
 						"publication": "Publication",
-						//"created": "Date",
 					},
 					"column_width": {
 						"publication": "auto",
@@ -683,7 +541,6 @@ app.definition =
 			"title_link": "index/introduction",
 			"icon": "sl_cv",
 			"user_access": "everyone",
-			//"user_menu": false,
 			"content": [
 				{
 					"type": "frame",
@@ -707,28 +564,12 @@ app.definition =
 					"type": "title",
 					"id": "title"				
 				},
-				/*{
-					"type": "content",
-					"id": "description"				
-				},*/
 				{
 					"type": "content",
 					"id": "content"				
 				}
 			]
 		},
-		/*{
-			"id": "news",
-			"title": "News",
-			"user_access": "everyone",
-			"content": [
-				{
-					"type": "content",
-					"id": "description",
-					"content": "News"				
-				}
-			]
-		},*/
 		{
 			"id": "images",
 			"title": "Photos",
@@ -739,29 +580,8 @@ app.definition =
 					"type": "list",
 					"id": "images_display",
 					"show_all_items": true,
-					//"search": "filter"
-					//"click": "article",
-					//"animation": "slide",
-					/*"date_columns": [
-						"created"
-					],*/
 					"image_location": "uploads",
 					"target" : "main",
-					//"click": "edit_image",
-					//"animation": "slide",
-					/*"edit": true,
-					"edit_fields": [
-						"description"
-					],
-					"delete": true,
-					/*"content": {
-						"username": {
-							"target": "main"	
-						},
-						"keywords": {
-								
-						}
-					}*/
 				}
 			]
 		},
@@ -797,19 +617,6 @@ app.definition =
 					"default_values": {
 						"category_id": "-1"
 					}
-					//"click": "article",
-					//"animation": "slide",
-					/*"date_columns": [
-						"created"
-					],
-					"content": {
-						"username": {
-							"target": "main"	
-						},
-						"keywords": {
-								
-						}
-					}*/
 				}
 			]
 		},
@@ -820,16 +627,6 @@ app.definition =
 			"click": "article",
 			"animation": "slide",
 			"content": [
-				/*{
-					"type": "carousel",
-					"id": "news",
-					"height": "400px",
-					"time_interval": 7000,
-					"play": true,
-					"offset": 0,
-					"animation": "slide",
-					"bulbs": true
-				},*/
 				{
 					"type": "list",
 					"id": "news",
@@ -844,14 +641,6 @@ app.definition =
 						"created": "Published"
 					},
 					"target" : "main",
-					/*"content": {
-						"username": {
-							"target": "main"	
-						},
-						"keywords": {
-								
-						}
-					}*/
 				}
 			]
 		},
@@ -870,11 +659,6 @@ app.definition =
 					"id": "created",
 					"caption": "Published"
 				},
-				/*{
-					"type": "user",
-					"id": "user",
-					"caption": "Submitted by"
-				},*/
 				{
 					"type": "content",
 					"id": "content"	
@@ -884,68 +668,8 @@ app.definition =
 					"id": "image",
 					"image_location": "uploads"
 				},
-				/*{
-					"type": "tags",
-					"id": "keywords",
-					"caption": "Keywords"	
-				},
-				/*{
-					"type": "comments"
-				},*/
 			]	
 		},
-		/*{
-			"id": "account",
-			"title": "Account",
-			"click": "feature_request",
-			"animation": "slide",
-			"content": [
-				{
-					"type": "form",
-					"id": "user",
-					"title": "Change Password",
-					"content": [
-						{
-							"type": "password",
-							"id": "password",
-							"placeholder": "Password"
-						}
-					],
-					"save": true,	
-				},
-			]	
-		},
-		{
-			"id": "applications",
-			"title": "Applications",
-			"user_access": "everyone",
-			"content": [
-				{
-					"type": "content",
-					"id": "instructions",
-					"content": "Here you find Noob Web Applications"
-				},
-				{
-					"type": "table",
-					"id": "web_applications",
-					"title": "Web Applications",
-					"columns": {
-						"image": "",
-						"title": "Application",
-						"description": "Description"
-					},
-					"content": {
-						"image": "image"
-					},
-					"column_width": {
-						"image": "50px",
-						"title": "300px",
-						"description": "auto"	
-					},
-					"target_frame": "main"
-				}
-			]
-		}*/
 	]
 }
 ;

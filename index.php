@@ -57,6 +57,30 @@
 		font-size:20px;	
 	}
 	
+	
+	.content.list_element > p {
+		margin:5px;
+	}
+	
+	.content.list_element {
+		padding-bottom:5px;	
+	}
+	
+	.list_element_wrap > .caption {
+		display:none;	
+	}
+	
+	.content.list_element p {
+		margin:0px;	
+		padding:0px;
+	}
+	
+	.content.list_element span {
+		margin:0px;	
+		padding:0px;
+	}
+	
+	
 	.main_title {
 		padding:50px;
 		margin-bottom:0px !important;	
@@ -67,6 +91,7 @@
 		width: 120px;
 		height:120px;
 		background-size: cover;	
+		margin-left: 120px;
 	}
 	
 	.site_options {
@@ -106,6 +131,16 @@
 	}
 	
 	.department_container {
+		margin-top: 25px;
+		float: left;
+		position: absolute;
+		z-index: 999;
+	}
+	
+	.department_container > a > img {
+		width:130px;
+		margin-top:25px;
+		margin-left:5px;
 	}
 </style>
 </head>
@@ -116,11 +151,7 @@
 </div>
 <div class='body_container blur'><!--blur-->
     <!--<div class='title_wrap'><div class='title'>Streamline</div> <div class='sub_logo'>noob software</div></div>-->
-   		<?	include 'user_bar.php'; ?>
-        <div class='site_options'>
-            <div class='second_language_button'><img src='images/second_language_flag.png' /></div>
-            <div class='english_language_button'><img src='images/un_flag.png' /></div>
-            <div class='department_container'>
+    	<div class='department_container'>
             <?
 				if(!isset($_SESSION['language']) || $_SESSION['language'] == 0) {
 					echo "<a href='https://english.hi.is/faculty_of_social_work'>";
@@ -128,15 +159,17 @@
 					echo "<a href='https://www.hi.is/felagsradgjafardeild'>";
 				}
 			?>
-            <img style="width:95px;" src='images/dep.png' />
+            <img style="" src='images/dep.png' />
             </a>
-            </div>
+        </div>
+            
+   		<?	include 'user_bar.php'; ?>
+        <div class='site_options'>
+            <div class='second_language_button'><img src='images/second_language_flag.png' /></div>
+            <div class='english_language_button'><img src='images/un_flag.png' /></div>
+            
         </div>
         <div class='site_links'>
-            <div class='rss_feed'><i class="icofont-ui-rss" style=''></i><!-- RSS--></div><!--color:#ee802f;-->
-            <div class='rss_feed'><i class="icofont-facebook" style=''></i><!-- Facebook--></div>
-            <div class='rss_feed'><img src="images/researchgate_white.png" width="27px"/><!-- <span style="top:-3px; position:relative;">ResearchGate</span>--></div>
-            <div class='rss_feed'><img src="images/orcid.png" width="27px"/><!-- <span style="top:-3px; position:relative;">ORCID</span>--></div>
         </div>
         <div class='body_wrap'>
             <div id='body_frame' class='frame'>
@@ -148,7 +181,6 @@
             </div>-->
         </div>	
 </div>
-<div class='calendar_popover' style='display:none;'></div>
 <? include 'common.php'; ?>
 <div class='dummy_div' style='display:none;'></div>
 </body>

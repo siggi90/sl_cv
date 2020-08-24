@@ -30,6 +30,8 @@ class sl_cv {
 		
 		$this->statement->set_callback(function($value) {
 			$value = str_replace(array("<pre>","</pre>","<div>","</div>"), "", $value);
+			$pattern = "/<p[^>]*><\\/p[^>]*>/"; 
+			$value = preg_replace($pattern, '', $value); 
 			return $value;
 		});
 		
@@ -99,7 +101,8 @@ class sl_cv {
 		$results[] = array('id' => 'news');
 		$results[] = array('id' => 'publications');
 		$results[] = array('id' => 'images');
-		
+	
+	
 		$page_order = array();
 		$query = "SELECT * FROM menu_order ORDER BY order_value ASC";
 		$rows = $this->sql->get_rows($query, 1);
@@ -232,18 +235,23 @@ class sl_cv {
 		
 		$results = array();
 		
+		
 		foreach($rows as $row) {
+			$description = $row['description'];
+			if($this->language != 0) {
+				$description = $row['description_2'];
+			}
 			$results[] = array(
 				'id' => $row['id'],
 				'image' => $row['id'].$row['extension'],
-				'content' => $row['description']
+				'content' => $description
 			);	
 		}
 		return $results;
 	}
 	
 	function get_edit_image($id) {
-		$query = "SELECT id, description FROM images WHERE id = ".$id;
+		$query = "SELECT id, description, description_2 FROM images WHERE id = ".$id;
 		return $this->sql->get_row($query, 1);	
 	}
 	
@@ -273,7 +281,7 @@ class sl_cv {
 			$query = "SELECT * FROM publication_files WHERE publication_id = ".$row['id'];
 			$files = $this->sql->get_rows($query, 1);
 			if(count($files) > 0) {
-				$rows[$key]['link'] = "<a href='uploads/".$files[0]['id'].$files[0]['extension']."'>".$files[0]['filename']."</a>";
+				$rows[$key]['download'] = "<a href='uploads/".$files[0]['id'].$files[0]['extension']."'>".$files[0]['filename']."</a>";
 			}
 		}
 		return $rows;
@@ -398,7 +406,9 @@ class sl_cv {
 		foreach($rows as $key => $row) {
 			$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
 			$image = $this->sql->get_row($query, 1);
-			$rows[$key]['image'] = $image['id'].$image['extension'];	
+			if($image != NULL) {
+				$rows[$key]['image'] = $image['id'].$image['extension'];	
+			}
 		}
 		return $rows;
 	}
