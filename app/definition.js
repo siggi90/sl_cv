@@ -219,6 +219,18 @@ app.definition =
 							"placeholder": "News Title (Second Language)"
 						},
 						{
+							"type": "text",
+							"id": "link_title",
+							"placeholder": "News Article Link Title",
+							"optional_field": true	
+						},
+						{
+							"type": "text",
+							"id": "link",
+							"placeholder": "News Article Link",
+							"optional_field": true	
+						},
+						{
 							"type": "textarea",
 							"rich_text": true,
 							"id": "content",
@@ -236,11 +248,17 @@ app.definition =
 					"on_submit": [
 						"news_table"
 					],
+					"on_load": [
+						"news_images_table"
+					],
+					"on_load_load_mask": {
+						"id": "id"	
+					}
 				},
 				{
 					"type": "content",
 					"id": "file_upload_instructions",
-					"content": "To add image to a news article: first save the news article then edit it and drop an image in the area below."
+					"content": "To add image/file to a news article: first save the news article then edit it and drop image/file in the area below."
 				},
 				{
 					"type": "file_upload",
@@ -254,7 +272,24 @@ app.definition =
 							"link": "news_form.id",
 							"value": "set"
 						}
+					],
+					"on_submit": [
+						"news_images_table"
 					]	
+				},
+				{
+					"type": "table",
+					"id": "news_images",
+					"delete": true,
+					"require_foreign_id": true,
+					"columns": {
+						"filename": "File Name",
+					},
+					"column_width": {
+						"filename": "auto",
+						"edit_button": "100px",
+						"delete_button": "100px"
+					},
 				},
 				{
 					"type": "table",
@@ -661,7 +696,14 @@ app.definition =
 				{
 					"type": "date",
 					"id": "created",
-					"caption": "Published"
+					"caption": "Published",
+					"popover": false,
+					"time": false
+				},
+				{
+					"type": "content",
+					"id": "link",
+					"variant": true
 				},
 				{
 					"type": "content",
@@ -672,6 +714,19 @@ app.definition =
 					"id": "image",
 					"image_location": "uploads"
 				},
+				{
+					"type": "table",
+					"id": "article_files",
+					"columns": {
+						"filename": "File Name",
+					},
+					"column_width": {
+						"filename": "auto",
+					},
+					"post_data": {
+						"news_id": "id"	
+					}
+				}
 			]	
 		},
 	]

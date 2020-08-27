@@ -388,12 +388,36 @@ class sl_cv {
 	
 	function get_article($id) {
 		$row = $this->get_new($id);	
-		$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
+		$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." AND (extension = '.png' OR extension = '.jpg' OR extension = '.bmp' OR extension = '.gif') ORDER BY id DESC LIMIT 1";
 		$image = $this->sql->get_row($query, 1);
 		if($image != NULL) {
 			$row['image'] = $image['id'].$image['extension'];	
 		}
+		if($row['link'] == NULL || trim($row['link']) == "") {
+			unset($row['link']);	
+		} else {
+			if($row['link_title'] == NULL || $row['link_title'] == "") {
+				$row['link_title'] = $row['link'];
+			}
+			$row['link'] = "<a href='".$row['link']."'>".$row['link_title']."</a>";
+		}
+		unset($row['link_title']);
 		return $row;
+	}
+	
+	function article_files_table($search_term, $offset, $id=-1) {
+		if($id == -1) {
+			return array();	
+		}
+		$query = "SELECT * FROM news_images WHERE news_id = ".$id." AND !(extension = '.png' OR extension = '.jpg' OR extension = '.bmp' OR extension = '.gif')";
+		$rows = $this->sql->get_rows($query, 1);
+		foreach($rows as $key => $row) {
+			if($row['filename'] == NULL) {
+				$row['filename'] = $row['id'].$row['extension'];
+			}
+			$rows[$key]['filename'] = "<a href='uploads/".$row['id'].$row['extension']."'>".$row['filename']."</a>";
+		}
+		return $rows;
 	}
 	
 	function news_list($search_term, $offset, $language=NULL) {
@@ -407,7 +431,7 @@ class sl_cv {
 		}
 		$rows = $this->sql->get_rows($query, 1);	
 		foreach($rows as $key => $row) {
-			$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
+			$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." AND (extension = '.png' OR extension = '.jpg' OR extension = '.bmp' OR extension = '.gif') ORDER BY id DESC LIMIT 1";
 			$image = $this->sql->get_row($query, 1);
 			if($image != NULL) {
 				$rows[$key]['image'] = $image['id'].$image['extension'];	
@@ -421,6 +445,19 @@ class sl_cv {
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
+	}
+	
+	function news_images_table($search_term, $offset, $news_id=-1) {
+		if($news_id != -1) {
+			$query = "SELECT * FROM news_images WHERE news_id = ".$news_id;
+			$rows = $this->sql->get_rows($query, 1);
+			foreach($rows as $key => $row) {
+				$rows[$key]['filename'] = $row['id'].$row['extension'];
+			}
+			return $rows;
+		} else {
+			return array();	
+		}
 	}
 	
 	function site_links() {

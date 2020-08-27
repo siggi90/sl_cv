@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SES
 					));
 				} else if($_GET['action'] == "news") {
 					$name = $app->sl_cv->_news_image(array(
+						'filename' => $name,
 						'extension' => $extension,
 						'news_id' => $_GET['news_id']
 					));	
