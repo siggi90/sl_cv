@@ -74,6 +74,9 @@ class sl_cv {
 	function get_index() {
 		$query = "SELECT * FROM settings WHERE property = 'title'";
 		$result = $this->sql->get_row($query, 1);
+		if($result == NULL) {
+			return array();	
+		}
 		return array(
 			$result['property'] => $result['value']
 		);
