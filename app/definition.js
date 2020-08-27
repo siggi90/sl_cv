@@ -6,12 +6,12 @@ app.definition =
 			"user": "admin/manage_pages"	
 		}
 	},
-	"search": {
+	/*"search": {
 		"search_type": "filter",
 		"objects": [
 		
 		]	
-	},
+	},*/
 	"pages": [
 		{
 			"id": "introduction",
@@ -634,7 +634,11 @@ app.definition =
 					"click": "article",
 					"animation": "slide",
 					"date_columns": [
-						"created"
+						{	
+							"class": "created",
+							"popover": false,
+							"time": false
+						}
 					],
 					"image_location": "uploads",
 					"columns": {

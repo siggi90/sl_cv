@@ -32,6 +32,8 @@ class sl_cv {
 			$value = str_replace(array("<pre>","</pre>","<div>","</div>"), "", $value);
 			$pattern = "/<p[^>]*><\\/p[^>]*>/"; 
 			$value = preg_replace($pattern, '', $value); 
+			$value = preg_replace('/(<[^>]+) style=".*?"/i', '$1', $value);
+			$value = preg_replace("/(<[^>]+) style='.*?'/i", '$1', $value);
 			return $value;
 		});
 		
@@ -44,14 +46,13 @@ class sl_cv {
 			$_SESSION['language'] = $this->language;
 		}
 	}
-	
+		
 	function delete_publication_categorie($id) {
 		$query = "DELETE FROM publication_categories WHERE id = ".$id;
 		$this->sql->execute($query);	
 	}
 	
 	function set_language($value) {
-		//$this->set_property("language", $value);
 		$_SESSION['language'] = $value;
 		$this->language = $value;	
 	}
@@ -389,7 +390,9 @@ class sl_cv {
 		$row = $this->get_new($id);	
 		$query = "SELECT * FROM news_images WHERE news_id = ".$row['id']." ORDER BY id DESC LIMIT 1";
 		$image = $this->sql->get_row($query, 1);
-		$row['image'] = $image['id'].$image['extension'];	
+		if($image != NULL) {
+			$row['image'] = $image['id'].$image['extension'];	
+		}
 		return $row;
 	}
 	
