@@ -160,6 +160,11 @@ CREATE TABLE `settings` (
   PRIMARY KEY (`property`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+
+ALTER TABLE news ADD COLUMN link TEXT;
+ALTER TABLE news ADD COLUMN link_title TEXT;
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
