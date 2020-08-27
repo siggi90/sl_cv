@@ -13,3 +13,5 @@ This template allows for english as the first language and another language as t
 Other than that all other information can be changed from within the administrative/content mangagement system.
 
 The content management system allows for custom pages with custom content, research publications sorted by publication categories (which can be managed as well). News articles page, photos page and links to Orcid, ResarchGate and Facebook, plus an RSS feed for the news page.
+
+Video instructions on how to use the web page: https://vimeo.com/451963742
