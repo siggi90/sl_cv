@@ -46,7 +46,7 @@ CREATE TABLE `images` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `menu_order` (
-  `page_id` varchar(512) NOT NULL,
+  `page_id` varchar(128) NOT NULL,
   `order_value` int(11) DEFAULT NULL,
   PRIMARY KEY (`page_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
