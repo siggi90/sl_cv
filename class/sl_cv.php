@@ -40,10 +40,7 @@ class sl_cv {
 		if(isset($_SESSION['language'])) {
 			$this->language = $_SESSION['language'];
 		} else {
-			$query = "SELECT value FROM settings WHERE property = 'language'";
-			$row = $this->sql->get_row($query, 1);
-			$this->language = $row['value'];	
-			$_SESSION['language'] = $this->language;
+			$_SESSION['language'] = 0;
 		}
 	}
 		
