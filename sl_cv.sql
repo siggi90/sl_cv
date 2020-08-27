@@ -165,6 +165,8 @@ CREATE TABLE `settings` (
 ALTER TABLE news ADD COLUMN link TEXT;
 ALTER TABLE news ADD COLUMN link_title TEXT;
 
+INSERT INTO settings (property, value) VALUES('title', 'My CV WebPage');
+
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
