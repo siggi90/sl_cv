@@ -140,7 +140,6 @@ class sl_cv {
 	}
 	
 	function page_order_set_order($v) {
-		var_dump($v);
 		foreach($v as $key => $value) {
 			if($value != '-1') {
 				$query = "DELETE FROM menu_order WHERE page_id = '".$value."'";

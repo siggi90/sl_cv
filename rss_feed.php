@@ -21,9 +21,9 @@ $row = $app->sl_cv->site_info($language);
 $rssfeed = '<?xml version="1.0" encoding="ISO-8859-1"?>';
 $rssfeed .= '<rss version="2.0">';
 $rssfeed .= '<channel>';
-$rssfeed .= '<title>'.$row['title'].'</title>';
+$rssfeed .= '<title>'.htmlspecialchars($row['title']).'</title>';
 $rssfeed .= '<link>'.$row['url'].'</link>';
-$rssfeed .= '<description>'.$row['description'].'</description>';
+$rssfeed .= '<description>'.htmlspecialchars($row['description']).'</description>';
 if($language == 0) {
 	$rssfeed .= '<language>en-us</language>';
 }
@@ -37,9 +37,13 @@ $rows = $app->sl_cv->news_list(NULL, NULL, $language);
 
 foreach($rows as $row) {
 	$rssfeed .= '<item>';
-	$rssfeed .= '<title>'.$row['title'].'</title>';
-	$rssfeed .= '<description>'.$row['content'].'</description>';
-	$rssfeed .= '<link>'.$url. '</link>';
+	$rssfeed .= '<title>'.htmlspecialchars(strip_tags($row['title'])).'</title>';
+	$rssfeed .= '<description>'.htmlspecialchars(strip_tags($row['content'])).'</description>';
+	$link = $url;
+	if($row['link'] != NULL && $row['link'] != "") {
+		$link = $row['link'];	
+	}
+	$rssfeed .= '<link>'.$link. '</link>';
 	$rssfeed .= '<pubDate>' . date("D, d M Y H:i:s O", strtotime($row['created'])) . '</pubDate>';
 	$rssfeed .= '</item>';
 }

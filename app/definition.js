@@ -130,7 +130,8 @@ app.definition =
 						{
 							"type": "textarea",
 							"id": "description",
-							"placeholder": "Web Page Description"	
+							"placeholder": "Web Page Description",
+							"optional_field": true	
 						},
 						{
 							"type": "text",
@@ -140,12 +141,14 @@ app.definition =
 						{
 							"type": "textarea",
 							"id": "description_2",
-							"placeholder": "Web Page Description (Second Language)"	
+							"placeholder": "Web Page Description (Second Language)",
+							"optional_field": true	
 						},
 						{
 							"type": "text",
 							"id": "second_language",
-							"placeholder": "Second Language"	
+							"placeholder": "Second Language",
+							"optional_field": true		
 						},
 						{
 							"type": "text",
