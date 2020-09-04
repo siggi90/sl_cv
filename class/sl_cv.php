@@ -287,6 +287,13 @@ class sl_cv {
 		return $rows;
 	}
 	
+	function publications_feed() {
+		$query = "SELECT id, link, publication as content, created FROM publications";
+		$query .= " ORDER BY created DESC";
+		$rows = $this->sql->get_rows($query, 1);
+		return $rows;
+	}
+	
 	function publication_categories_table($search_term, $offset) {
 		$query = "SELECT id, category_name FROM publication_categories";
 		return $this->sql->get_rows($query, 1);	
@@ -465,7 +472,9 @@ class sl_cv {
 		if($this->language != 0) {
 			$language = "lang";	
 		}
-		$return_value .= '<div class="rss_feed tooltip"><a href="rss_feed.php?language='.$language.'"><i class="icofont-ui-rss"></i></a><span class="tooltiptext">RSS Feed</span></div>';
+		$return_value .= '<div class="rss_feed tooltip"><a href="rss_feed.php?language='.$language.'"><i class="icofont-ui-rss"></i></a><span class="tooltiptext">News RSS Feed</span></div>';
+		
+		$return_value .= '<div class="rss_feed tooltip"><a href="publications_feed.php"><i class="icofont-ui-rss"></i></a><span class="tooltiptext">Publications RSS Feed</span></div>';
 		
 		$query = "SELECT * FROM settings WHERE property = 'facebook'";
 		$row = $this->sql->get_row($query, 1);
