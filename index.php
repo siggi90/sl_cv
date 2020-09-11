@@ -65,11 +65,7 @@
 	.content.list_element {
 		padding-bottom:5px;	
 	}
-	
-	.list_element_wrap > .caption {
-		display:none;	
-	}
-	
+		
 	.content.list_element p {
 		margin:0px;	
 		padding:0px;

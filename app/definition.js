@@ -646,8 +646,14 @@ app.definition =
 					"search": "filter",
 					"target" : "main",
 					"columns": {
-						"created": "Published",
-						"link": "Available at"
+						"link": {
+							1: "Available at",
+							2: "Aðgengilegt hér"
+						},
+						"download": {
+							1: "Available at",
+							2: "Aðgengilegt hér"
+						},
 					},
 					"post_data": {
 						"category_id": "category_id"
