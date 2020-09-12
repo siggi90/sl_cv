@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SES
 				include 'app.php';
 				$app = new app();
 				
+				$directory = "uploads";
 				if($_GET['action'] == "images") {
 					$name = $app->sl_cv->_image(array(
 						'description' => $name,
@@ -44,18 +45,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_id']) && $_SES
 						'filename' => $name,
 						'extension' => $extension,
 						'news_id' => $_GET['news_id']
-					));	
+					));
+					$directory = "news";	
 				} else if($_GET['action'] == "publication") {					
 					$name = $app->sl_cv->_publication_file(array(
 						'filename' => $name,
 						'extension' => $extension,
 						'publication_id' => $_GET['publication_id']
-					));		
+					));	
+					$directory = "publications";	
 				}
 				$name .= $extension;
 				
-				$targetPath =  dirname( __FILE__ ) . DIRECTORY_SEPARATOR. 'uploads' . DIRECTORY_SEPARATOR. $name;
-				move_uploaded_file($tmpName,$targetPath);
+				$targetPath =  dirname( __FILE__ ).DIRECTORY_SEPARATOR.$directory.DIRECTORY_SEPARATOR.$name;
+				move_uploaded_file($tmpName, $targetPath);
 				//header( 'Location: index.php' ) ;
 				exit;
 			}

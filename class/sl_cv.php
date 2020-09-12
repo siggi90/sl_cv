@@ -281,7 +281,7 @@ class sl_cv {
 			$query = "SELECT * FROM publication_files WHERE publication_id = ".$row['id'];
 			$files = $this->sql->get_rows($query, 1);
 			if(count($files) > 0) {
-				$rows[$key]['download'] = "<a href='uploads/".$files[0]['id'].$files[0]['extension']."'>".$files[0]['filename']."</a>";
+				$rows[$key]['download'] = "<a href='publications/".$files[0]['id'].$files[0]['extension']."'>".$files[0]['filename']."</a>";
 			}
 		}
 		return $rows;
@@ -421,7 +421,7 @@ class sl_cv {
 			if($row['filename'] == NULL) {
 				$row['filename'] = $row['id'].$row['extension'];
 			}
-			$rows[$key]['filename'] = "<a href='uploads/".$row['id'].$row['extension']."'>".$row['filename']."</a>";
+			$rows[$key]['filename'] = "<a href='news/".$row['id'].$row['extension']."'>".$row['filename']."</a>";
 		}
 		return $rows;
 	}
@@ -431,9 +431,9 @@ class sl_cv {
 			$language = $this->language;	
 		}
 		if($language == 0) {
-			$query = "SELECT id, title, content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
+			$query = "SELECT id, title, content, created, link_title, link FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		} else {
-			$query = "SELECT id, title_2 as title, content_2 as content, created FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
+			$query = "SELECT id, title_2 as title, content_2 as content, created, link_title, link FROM news ORDER BY id DESC LIMIT ".($offset+$this->list_start);
 		}
 		$rows = $this->sql->get_rows($query, 1);	
 		foreach($rows as $key => $row) {
@@ -442,8 +442,16 @@ class sl_cv {
 			if($image != NULL) {
 				$rows[$key]['image'] = $image['id'].$image['extension'];	
 			}
+			
+			$rows[$key]['link'] = "<a href='".$row['link']."'>".$row['link_title']."</a>";
+			unset($rows[$key]['link_title']);
 		}
 		return $rows;
+	}
+	
+	function news_list_count() {
+		$query = "SELECT COUNT(*) as count FROM news";
+		return $this->sql->get_row($query, 1)['count'];	
 	}
 	
 	function _news_image($v) {
@@ -451,6 +459,11 @@ class sl_cv {
 		$this->sql->execute($this->statement->get());
 		$id = $this->sql->last_id($v);
 		return $id;
+	}
+	
+	function delete_news_image($id) {
+		$query = "DELETE FROM news_images WHERE id = ".$id;
+		$this->sql->execute($query);	
 	}
 	
 	function news_images_table($search_term, $offset, $news_id=-1) {

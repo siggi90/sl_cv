@@ -684,9 +684,16 @@ app.definition =
 							"time": false
 						}
 					],
-					"image_location": "uploads",
+					"image_location": "news",
 					"columns": {
-						"created": "Published"
+						"created": {
+							1: "Published",
+							2: "Gefið út"
+						},
+						"link": {
+							1: "Link",
+							2: "Hlekkur"	
+						}
 					},
 					"target" : "main",
 				}
@@ -721,7 +728,7 @@ app.definition =
 				{
 					"type": "image",
 					"id": "image",
-					"image_location": "uploads"
+					"image_location": "news"
 				},
 				{
 					"type": "table",
